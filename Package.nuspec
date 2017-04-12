@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DotNetPivotalTrackerApi</id>
+    <version>1.0.4</version>
+    <authors>Matt Brewerton</authors>
+    <owners>Matt Brewerton</owners>
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A C# wrapper library to encapsulate Pivotal Tracker functionality, providing easy-to-use methods.</description>
+    <releaseNotes>N/A</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>C# Pivotal Tracker Api</tags>
+    <dependencies>
+	  <dependency id="Newtonsoft.Json" version="9.0.1" />
+	</dependencies>
+  </metadata>
+  <files>
+	<file src="\PivotalTrackerApi\bin\Debug\DotNetPivotalTrackerApi.dll" target="\lib\DotNetPivotalTrackerApi.dll" />
+  </files>
+</package>
