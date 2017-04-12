@@ -3,41 +3,41 @@
 The DotNet Pivotal Tracker API is a C# wrapper to enable easy use of the Pivotal Tracker REST API in C#.
 
 ## Basic Guide
-To start using the API, create a new PivotalTracker instance `var tracker = new PivotalTracker(YourApiToken)` and you can use all methods in the package from that instance. You must pass a Pivotal Tracker API Key to the PivotalTracker class as it uses this to communicate with the REST API. You can have multiple instances at once with multiple API keys if needed:
+To start using the API, create a new PivotalTracker instance `PivotalTracker tracker = new PivotalTracker(YourApiToken)` and you can use all methods in the package from that instance. You must pass a Pivotal Tracker API Key to the PivotalTracker class as it uses this to communicate with the REST API. You can have multiple instances at once with multiple API keys if needed:
 ``` C#
-var personalTracker = new PivotalTracker(PersonalApiKey);
-var businessTracker = new PivotalTracker(BusinessApiKey);
+PivotalTracker personalTracker = new PivotalTracker(PersonalApiKey);
+PivotalTracker businessTracker = new PivotalTracker(BusinessApiKey);
 ```
 
 ## Examples
 You can use the API to get your user data as well as specific REST actions:
 ``` C#
-var tracker = new PivotalTracker(_apiKey_);
+PivotalTracker tracker = new PivotalTracker(_apiKey_);
 
-var user = tracker.GetUser();
+PivotalUser user = tracker.GetUser();
 ```
-The `user` variable is a `PivotalUser` object with your user details attached including projects. All methods return an object, including any POST or PUT methods. This means you can use previously created objects when making subsequent calls.
+All methods return an object, including any POST or PUT methods. This means you can use previously created objects when making subsequent calls.
 
 Not only can you use the API to call GET methods on the Pivotal Tracker REST API, but you can also use to it POST.
 ``` C#
-var tracker = new PivotalTracker(_apiKey_);
-var projectId = 1357;
+PivotalTracker tracker = new PivotalTracker(_apiKey_);
+int projectId = 1357;
 
 // Create a new story with c'tor
-var savedStory = tracker.CreateNewStory(projectId, "My new Feature", StoryType.feature, null, "My description");
+PivotalStory savedStory = tracker.CreateNewStory(projectId, "My new Feature", StoryType.feature, null, "My description");
 
 // Create a new story with a pre-made object
-var myBug = new PivotalNewStory
+PivotalNewStory myBug = new PivotalNewStory
 {
   Name = "My new story",
   Description = "My new description",
-  StoryType = DotNetPivotalTrackerApi.Enums.StoryType.bug,
+  StoryType = Enums.StoryType.bug.ToString(),
   Labels = new List<string>
   {
       "My label"
   }
 }
-var savedBug = tracker.CreateNewStory(projectId, myBug);
+PivotalStory savedBug = tracker.CreateNewStory(projectId, myBug);
 ```
 
 # Boring Stuff
