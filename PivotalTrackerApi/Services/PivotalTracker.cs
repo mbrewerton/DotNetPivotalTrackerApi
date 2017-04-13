@@ -37,31 +37,6 @@ namespace DotNetPivotalTrackerApi.Services
             HttpService.SetupHttpClient(_apiToken);
         }
 
-        /// <summary>
-        /// Helper method to serialize a HttpResponseMessage <paramref name="response"/> to an object of type <typeparamref name="T"/>
-        /// </summary>
-        /// <typeparam name="T">Object type to seralize to.</typeparam>
-        /// <param name="response">The HttpResponseMessage to seralize.</param>
-        /// <returns>Returns <paramref name="response"/> as seralized object of type <typeparamref name="T"/></returns>
-        private T Serialize<T>(HttpResponseMessage response)
-        {
-            return JsonService.SerializeJsonToObject<T>(response.Content.ReadAsStringAsync().Result);
-        }
-
-        /// <summary>
-        /// Reads the Result of <paramref name="response"/> as a string and throws a PivotalHttpException with the response.
-        /// </summary>
-        /// <param name="response">The response of the Http call.</param>
-        /// <returns>Throws PivotalHttpException.</returns>
-        private PivotalHttpException ThrowException(HttpResponseMessage response)
-        {
-            // Gets the result of the response as a string so that we can construct an exception.
-            var text = response.Content.ReadAsStringAsync().Result;
-
-            // Throws new exception with the body of our response result.
-            throw new PivotalHttpException($"Result was unsuccessful. {text}");
-        }
-
         #region User
         /// <summary>
         /// Gets the user details for the current Api Token.
@@ -71,13 +46,8 @@ namespace DotNetPivotalTrackerApi.Services
         {
             // Gets current user data for the user of the current Api token
             var response = HttpService.GetAsync("me").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                return Serialize<PivotalUser>(response);
-            }
 
-            // Failure, throw generic exception with response
-            throw ThrowException(response);
+            return HandleResponse<PivotalUser>(response);
         }
         #endregion
 
@@ -89,12 +59,8 @@ namespace DotNetPivotalTrackerApi.Services
         public List<PivotalProject> GetProjects()
         {
             var response = HttpService.GetAsync("projects").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                return Serialize<List<PivotalProject>>(response);
-            }
 
-            throw ThrowException(response);
+            return HandleResponse<List<PivotalProject>>(response);
         }
 
         /// <summary>
@@ -105,12 +71,8 @@ namespace DotNetPivotalTrackerApi.Services
         public PivotalProject GetProjectById(int id)
         {
             var response = HttpService.GetAsync($"projects/{id}").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                return Serialize<PivotalProject>(response);
-            }
 
-            throw ThrowException(response);
+            return HandleResponse<PivotalProject>(response);
         }
         #endregion
 
@@ -123,13 +85,8 @@ namespace DotNetPivotalTrackerApi.Services
         public List<PivotalStory> GetProjectStories(int projectId)
         {
             var response = HttpService.GetAsync(StringUtil.PivotalStoriesUrl(projectId)).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                return Serialize<List<PivotalStory>>(response);
-            }
 
-            // Failure, throw generic exception with response
-            throw ThrowException(response);
+            return HandleResponse<List<PivotalStory>>(response);
         }
 
         /// <summary>
@@ -141,13 +98,8 @@ namespace DotNetPivotalTrackerApi.Services
         public PivotalStory GetStoryById(int projectId, int storyId)
         {
             var response = HttpService.GetAsync(StringUtil.PivotalStoriesUrl(projectId, storyId)).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                return Serialize<PivotalStory>(response);
-            }
 
-            // Failure, throw generic exception with response
-            throw ThrowException(response);
+            return HandleResponse<PivotalStory>(response);
         }
 
         /// <summary>
@@ -186,13 +138,8 @@ namespace DotNetPivotalTrackerApi.Services
                 StoryType = storyType.ToString()
             };
             var response = HttpService.PostAsync(StringUtil.PivotalStoriesUrl(projectId), story).Result;
-            if (response.IsSuccessStatusCode)
-            {
 
-                return Serialize<PivotalStory>(response);
-            }
-
-            throw ThrowException(response);
+            return HandleResponse<PivotalStory>(response);
         }
 
         /// <summary>
@@ -206,14 +153,7 @@ namespace DotNetPivotalTrackerApi.Services
             // Try and create a new PivotalStory
             var response = HttpService.PostAsync(StringUtil.PivotalStoriesUrl(projectId), pivotalStory).Result;
 
-            if (response.IsSuccessStatusCode)
-            {
-                // Success, return serialised response
-                return Serialize<PivotalStory>(response);
-            }
-
-            // Failure, throw generic exception with response
-            throw ThrowException(response);
+            return HandleResponse<PivotalStory>(response);
         }
         #endregion
 
@@ -228,12 +168,7 @@ namespace DotNetPivotalTrackerApi.Services
         {
             var response = HttpService.GetAsync(StringUtil.PivotalStoryTasksUrl(projectId, storyId)).Result;
 
-            if (response.IsSuccessStatusCode)
-            {
-                return Serialize<List<PivotalTask>>(response);
-            }
-
-            throw ThrowException(response);
+            return HandleResponse<List<PivotalTask>>(response);
         }
 
         /// <summary>
@@ -247,12 +182,7 @@ namespace DotNetPivotalTrackerApi.Services
         {
             var response = HttpService.PostAsync(StringUtil.PivotalStoryTasksUrl(projectId, storyId), pivotalTask).Result;
 
-            if (response.IsSuccessStatusCode)
-            {
-                return Serialize<PivotalTask>(response);
-            }
-
-            throw ThrowException(response);
+            return HandleResponse<PivotalTask>(response);
         }
 
         public PivotalTask CreateNewStoryTask(int projectId, int storyId, string description, bool complete = false, int? position = null)
@@ -265,12 +195,7 @@ namespace DotNetPivotalTrackerApi.Services
             };
             var response = HttpService.PostAsync(StringUtil.PivotalStoryTasksUrl(projectId, storyId), pivotalTask).Result;
 
-            if (response.IsSuccessStatusCode)
-            {
-                return Serialize<PivotalTask>(response);
-            }
-
-            throw ThrowException(response);
+            return HandleResponse<PivotalTask>(response);
         }
 
         public PivotalTask UpdateStoryTask(int projectId, int storyId, PivotalTask pivotalTask)
@@ -281,12 +206,7 @@ namespace DotNetPivotalTrackerApi.Services
             }
             var response = HttpService.PutAsync(StringUtil.PivotalTasksUrl(projectId, storyId, pivotalTask.Id), pivotalTask).Result;
 
-            if (response.IsSuccessStatusCode)
-            {
-                return Serialize<PivotalTask>(response);
-            }
-
-            throw ThrowException(response);
+            return HandleResponse<PivotalTask>(response);
         }
         #endregion
 
@@ -303,14 +223,8 @@ namespace DotNetPivotalTrackerApi.Services
             // TODO: Implement include attachments.
             // Try and get all comments for a specific story
             var response = HttpService.GetAsync(StringUtil.PivotalCommentsUrl(projectId, storyId)).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                // Success, return serialised response
-                return Serialize<List<PivotalComment>>(response);
-            }
 
-            // Failure, throw generic exception with response
-            throw ThrowException(response);
+            return HandleResponse<List<PivotalComment>>(response);
         }
 
         /// <summary>
@@ -346,14 +260,7 @@ namespace DotNetPivotalTrackerApi.Services
                         StringUtil.PivotalCommentsUrl(storyFromPivotal.ProjectId, storyFromPivotal.Id), newComment)
                         .Result;
 
-                if (response.IsSuccessStatusCode)
-                {
-                    // Success, return serialised response
-                    return Serialize<PivotalComment>(response);
-                }
-
-                // Failure, throw generic exception with response
-                throw ThrowException(response);
+                return HandleResponse<PivotalComment>(response);
             }
 
             // Failure, our story does not exist on this project.
@@ -372,14 +279,8 @@ namespace DotNetPivotalTrackerApi.Services
         {
             // Try and send our whole comment object to Pivotal
             var response = HttpService.PostAsync(StringUtil.PivotalCommentsUrl(pivotalComment.ProjectId, pivotalComment.StoryId), pivotalComment).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                // Success, return serialised response
-                return Serialize<PivotalComment>(response);
-            }
 
-            // Failure, throw generic exception with response
-            throw ThrowException(response);
+            return HandleResponse<PivotalComment>(response);
         }
 
         /// <summary>
@@ -402,14 +303,8 @@ namespace DotNetPivotalTrackerApi.Services
 
             // Try and send our new comment to Pivotal
             var response = HttpService.PostAsync(StringUtil.PivotalCommentsUrl(projectId, storyId), pivotalComment).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                // Success, return serialised response
-                return Serialize<PivotalComment>(response);
-            }
 
-            // Failure, throw generic exception with response
-            throw ThrowException(response);
+            return HandleResponse<PivotalComment>(response);
         }
 
         /// <summary>
@@ -488,6 +383,51 @@ namespace DotNetPivotalTrackerApi.Services
                 // Failure, throw generic exception with response
                 throw ThrowException(uploadResponse);
             }
+        }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Checks the IsSuccessStatusCode property of the <paramref name="responseMessage"/> and serialises the response. Throws <see cref="PivotalHttpException"/> if false.
+        /// </summary>
+        /// <typeparam name="T">Type to serialise the JSON response to.</typeparam>
+        /// <param name="responseMessage">The response from the Pivotal Tracker API.</param>
+        /// <returns>JSON serialised as object using <typeparamref name="T"/></returns>
+        private T HandleResponse<T>(HttpResponseMessage responseMessage)
+        {
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                // Success, return serialised response
+                return Serialize<T>(responseMessage);
+            }
+
+            // Failure, throw generic exception with response
+            throw ThrowException(responseMessage);
+        }
+
+        /// <summary>
+        /// Helper method to serialize a HttpResponseMessage <paramref name="response"/> to an object of type <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T">Object type to seralize to.</typeparam>
+        /// <param name="response">The HttpResponseMessage to seralize.</param>
+        /// <returns>Returns <paramref name="response"/> as seralized object of type <typeparamref name="T"/></returns>
+        private T Serialize<T>(HttpResponseMessage response)
+        {
+            return JsonService.SerializeJsonToObject<T>(response.Content.ReadAsStringAsync().Result);
+        }
+
+        /// <summary>
+        /// Reads the Result of <paramref name="response"/> as a string and throws a PivotalHttpException with the response.
+        /// </summary>
+        /// <param name="response">The response of the Http call.</param>
+        /// <returns>Throws PivotalHttpException.</returns>
+        private PivotalHttpException ThrowException(HttpResponseMessage response)
+        {
+            // Gets the result of the response as a string so that we can construct an exception.
+            var text = response.Content.ReadAsStringAsync().Result;
+
+            // Throws new exception with the body of our response result.
+            throw new PivotalHttpException($"Result was unsuccessful. {text}");
         }
         #endregion
     }
