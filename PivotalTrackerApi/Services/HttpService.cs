@@ -99,7 +99,7 @@ namespace DotNetPivotalTrackerApi.Services
         private static void CheckTokenExists()
         {
             if (string.IsNullOrEmpty(_apiToken))
-                throw new PivotalHttpException("Api Token has not been set. Please set it using HttpService.SetupHttpClient(string apiToken).");
+                throw new PivotalAuthorisationException("Api Token has not been set. Please set it using HttpService.SetupHttpClient(string apiToken).");
         }
     }
 }
