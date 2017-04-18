@@ -43,7 +43,7 @@ namespace Examples
             
             foreach(var project in projects)
             {
-                Console.WriteLine($@"   - {project.Name}");
+                Console.WriteLine($@"   - {project.Name} {(project.Public == false ? "(PRIVATE)" : "")}");
             }
         }
 
