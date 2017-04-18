@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B80711B6-AC08-41B9-A16F-72FD92F4C12C}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{96E0C8C0-4968-4B74-88C7-2F4BF024A042}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DotNetPivotalTrackerApi</RootNamespace>
-    <AssemblyName>DotNetPivotalTrackerApi</AssemblyName>
+    <RootNamespace>Examples</RootNamespace>
+    <AssemblyName>Examples</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,11 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,38 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\StoryState.cs" />
-    <Compile Include="Enums\StoryType.cs" />
-    <Compile Include="Exceptions\PivotalAuthorisationException.cs" />
-    <Compile Include="Exceptions\PivotalNotFoundException.cs" />
-    <Compile Include="Exceptions\PivotalException.cs" />
-    <Compile Include="Exceptions\PivotalHttpException.cs" />
-    <Compile Include="Exceptions\PivotalUserException.cs" />
-    <Compile Include="Models\Attachments\PivotalAttachment.cs" />
-    <Compile Include="Models\Attachments\PivotalNewAttachment.cs" />
-    <Compile Include="Models\Comments\PivotalComment.cs" />
-    <Compile Include="Models\PivotalModel.cs" />
-    <Compile Include="Models\Project\PivotalProject.cs" />
-    <Compile Include="Models\Stories\PivotalLabel.cs" />
-    <Compile Include="Models\Stories\PivotalNewStory.cs" />
-    <Compile Include="Models\Stories\PivotalStory.cs" />
-    <Compile Include="Models\Tasks\PivotalNewTask.cs" />
-    <Compile Include="Models\Tasks\PivotalTask.cs" />
-    <Compile Include="Models\User\PivotalUserProject.cs" />
-    <Compile Include="Models\User\PivotalUser.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\JsonService.cs" />
-    <Compile Include="Services\PivotalTracker.cs" />
-    <Compile Include="Services\HttpService.cs" />
-    <Compile Include="Utils\StringUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DotNetPivotalTrackerApi.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
+    <None Include="App.tpl.config" />
+    <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\PivotalTrackerApi\DotNetPivotalTrackerApi.csproj">
+      <Project>{b80711b6-ac08-41b9-a16f-72fd92f4c12c}</Project>
+      <Name>DotNetPivotalTrackerApi</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
