@@ -43,7 +43,7 @@ namespace DotNetPivotalTrackerApi.Utils
             return $"projects/{projectId}/stories/{storyId}/tasks";
         }
 
-        public static string PivotalTasksUrl(int projectId, int storyId, int taskId)
+        public static string PivotalStoryTasksUrl(int projectId, int storyId, int taskId)
         {
             return $"projects/{projectId}/stories/{storyId}/tasks/{taskId}";
         }

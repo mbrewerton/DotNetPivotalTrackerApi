@@ -200,13 +200,15 @@ namespace DotNetPivotalTrackerApi.Services
 
         public PivotalTask UpdateStoryTask(int projectId, int storyId, PivotalTask pivotalTask)
         {
-            if (pivotalTask.TaskId != null)
-            {
-
-            }
-            var response = HttpService.PutAsync(StringUtil.PivotalTasksUrl(projectId, storyId, pivotalTask.Id), pivotalTask).Result;
+            var response = HttpService.PutAsync(StringUtil.PivotalStoryTasksUrl(projectId, storyId, pivotalTask.Id), pivotalTask).Result;
 
             return HandleResponse<PivotalTask>(response);
+        }
+
+        public bool DeleteStoryTask(int projectId, int storyId, int taskId)
+        {
+            var response = HttpService.DeleteAsync(StringUtil.PivotalStoryTasksUrl(projectId, storyId, taskId)).Result;
+            return HandleResponseBoolean(response);
         }
         #endregion
 
@@ -392,13 +394,29 @@ namespace DotNetPivotalTrackerApi.Services
         /// </summary>
         /// <typeparam name="T">Type to serialise the JSON response to.</typeparam>
         /// <param name="responseMessage">The response from the Pivotal Tracker API.</param>
-        /// <returns>JSON serialised as object using <typeparamref name="T"/></returns>
+        /// <returns>JSON serialised as object using <typeparamref name="T"/>.</returns>
         private T HandleResponse<T>(HttpResponseMessage responseMessage)
         {
             if (responseMessage.IsSuccessStatusCode)
             {
                 // Success, return serialised response
                 return Serialize<T>(responseMessage);
+            }
+
+            // Failure, throw generic exception with response
+            throw ThrowException(responseMessage);
+        }
+        /// <summary>
+        /// Checks the IsSuccessStatusCode property of the <paramref name="responseMessage"/> returns true if successful. Throws <see cref="PivotalHttpException"/> if false.
+        /// </summary>
+        /// <param name="responseMessage">The response from the Pivotal Tracker API.</param>
+        /// <returns>boolean (true) if successful.</returns>
+        private bool HandleResponseBoolean(HttpResponseMessage responseMessage)
+        {
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                // Success, return a true;
+                return true;
             }
 
             // Failure, throw generic exception with response
