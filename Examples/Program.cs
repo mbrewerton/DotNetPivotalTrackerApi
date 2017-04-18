@@ -1,4 +1,5 @@
 ﻿using DotNetPivotalTrackerApi.Enums;
+using DotNetPivotalTrackerApi.Models.Project;
 using DotNetPivotalTrackerApi.Models.User;
 using DotNetPivotalTrackerApi.Services;
 using System;
@@ -20,8 +21,8 @@ namespace Examples
             _mytracker = new PivotalTracker(_apiKey);
 
             //GetUserInfo();
-            //GetProjects();
-            CreateNewStory();
+            GetProjects();
+            //CreateNewStory();
             Console.ReadKey();
         }
 
@@ -36,7 +37,14 @@ namespace Examples
         {
             PivotalUser user = _mytracker.GetUser();
             // This method uses the current API Key to get the projects the user is assigned to
-            _mytracker.GetProjects();
+            List<PivotalProject> projects = _mytracker.GetProjects();
+
+            Console.WriteLine($"{user.Name} is assigned to the following projects:");
+            
+            foreach(var project in projects)
+            {
+                Console.WriteLine($@"   - {project.Name}");
+            }
         }
 
         private static void CreateNewStory()
