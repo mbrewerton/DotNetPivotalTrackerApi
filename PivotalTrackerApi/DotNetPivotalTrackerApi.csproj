@@ -70,6 +70,7 @@
     <Compile Include="Utils\StringUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DotNetPivotalTrackerApi.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
