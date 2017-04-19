@@ -13,13 +13,10 @@ namespace DotNetPivotalTrackerApi.Services
     public static class HttpService
     {
         private static string _apiToken;
-        public static string ApiToken
-        {
-            get { return _apiToken; }
-        }
+        public static string ApiToken => _apiToken;
 
         private static readonly string _baseUrl = "https://www.pivotaltracker.com/services/v5/";
-        private static HttpClient _httpClient = new HttpClient();
+        private static readonly HttpClient HttpClient = new HttpClient();
 
         private static StringContent CreateStringContent(string content)
         {
@@ -29,9 +26,9 @@ namespace DotNetPivotalTrackerApi.Services
         public static void SetupHttpClient(string apiToken)
         {
             _apiToken = apiToken;
-            _httpClient.BaseAddress = new Uri(_baseUrl);
-            _httpClient.DefaultRequestHeaders.Add("X-TrackerToken", _apiToken);
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpClient.BaseAddress = new Uri(_baseUrl);
+            HttpClient.DefaultRequestHeaders.Add("X-TrackerToken", _apiToken);
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
         
         /// <summary>
@@ -42,7 +39,7 @@ namespace DotNetPivotalTrackerApi.Services
         public static async Task<HttpResponseMessage> GetAsync(string path)
         {
             CheckTokenExists();
-            return _httpClient.GetAsync(path).Result;
+            return await HttpClient.GetAsync(path);        
         }
 
         /// <summary>
@@ -56,7 +53,7 @@ namespace DotNetPivotalTrackerApi.Services
         {
             CheckTokenExists();
             var content = CreateStringContent(JsonService.SerializeObjectToJson(data));
-            return _httpClient.PostAsync(path, content).Result;
+            return await HttpClient.PostAsync(path, content);
         }
 
         /// <summary>
@@ -70,7 +67,7 @@ namespace DotNetPivotalTrackerApi.Services
         {
             CheckTokenExists();
             var content = CreateStringContent(JsonService.SerializeObjectToJson(data));
-            return _httpClient.PutAsync(path, content).Result;
+            return await HttpClient.PutAsync(path, content);
         }
 
         /// <summary>
@@ -87,13 +84,13 @@ namespace DotNetPivotalTrackerApi.Services
             if (serialiseToJson)
                 return await PostAsync<T>(path, data);
 
-            return _httpClient.PostAsync(path, data).Result;
+            return await HttpClient.PostAsync(path, data);
         }
 
         public static async Task<HttpResponseMessage> DeleteAsync(string path)
         {
             CheckTokenExists();
-            return _httpClient.DeleteAsync(path).Result;
+            return await HttpClient.DeleteAsync(path);
         }
 
         private static void CheckTokenExists()
