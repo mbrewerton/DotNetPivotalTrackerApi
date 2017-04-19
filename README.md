@@ -2,6 +2,9 @@
 ## About
 The DotNet Pivotal Tracker API is a C# wrapper to enable easy use of the Pivotal Tracker REST API in C#.
 
+## Contribution
+Anyone can contribute to the project via Pull Requests (PRs), but all PRs must be created against the `develop` branch. Contribution branches would preferably be created using gitflow - Create a branch called `feature/your_feature_to_add` from `develop` and then create a PR for `feature/your_feature_to_add` -> `develop`.
+
 ## Basic Guide
 To start using the API, create a new PivotalTracker instance `PivotalTracker tracker = new PivotalTracker(YourApiToken)` and you can use all methods in the package from that instance. You must pass a Pivotal Tracker API Key to the PivotalTracker class as it uses this to communicate with the REST API. You can have multiple instances at once with multiple API keys if needed:
 ``` C#
@@ -10,15 +13,18 @@ PivotalTracker businessTracker = new PivotalTracker(BusinessApiKey);
 ```
 
 ## Examples
+
+### Get User Info
 You can use the API to get your user data as well as specific REST actions:
 ``` C#
 PivotalTracker tracker = new PivotalTracker(_apiKey_);
 
 PivotalUser user = tracker.GetUser();
+Console.WriteLine($"User Info: {user.Name} ({user.Initials}) has username {user.Username} and Email {user.Email}");
 ```
-All methods return an object, including any POST or PUT methods. This means you can use previously created objects when making subsequent calls.
+All methods return an object, including any POST or PUT methods. This means you can use previously created objects when making subsequent calls. DELETE requests will return a boolean, returning `true` if it was successful. If there was an error, a `PivotalHttpException` will be thrown allowing you to try/catch for it. The exception message will include the full error message from Pivtotal Tracker.
 
-Not only can you use the API to call GET methods on the Pivotal Tracker REST API, but you can also use to it POST.
+### Creating a New Story
 ``` C#
 PivotalTracker tracker = new PivotalTracker(_apiKey_);
 int projectId = 1357;
@@ -38,6 +44,13 @@ PivotalNewStory myBug = new PivotalNewStory
   }
 }
 PivotalStory savedBug = tracker.CreateNewStory(projectId, myBug);
+```
+
+### Adding a Task to a Story
+``` C#
+int projectId = 1357;
+PivotalStory story = tracker.GetProjectStories(projectId).First();
+PivotalTask storyTask = tracker.CreateNewStoryTask(projectId, story.Id, "This is a task");
 ```
 
 # Boring Stuff
