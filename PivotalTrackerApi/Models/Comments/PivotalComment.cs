@@ -15,7 +15,7 @@ namespace DotNetPivotalTrackerApi.Models.Comments
         [JsonProperty("file_attachment_ids")]
         public List<int> FileAttachmentIds { get; set; }
         [JsonProperty("person_id")]
-        public int PersonId { get; set; }
+        public int? PersonId { get; set; }
     }
     public class PivotalNewComment
     {

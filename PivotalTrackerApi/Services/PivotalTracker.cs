@@ -409,6 +409,16 @@ namespace DotNetPivotalTrackerApi.Services
                 throw ThrowException(uploadResponse);
             }
         }
+
+        public PivotalComment UpdateComment(int projectId, int storyId, PivotalComment comment)
+        {
+            if (comment.PersonId != null)
+                comment.PersonId = null;
+
+            var response = HttpService.PutAsync(StringUtil.PivotalCommentsUrl(projectId, storyId, comment.Id), comment).Result;
+
+            return HandleResponse<PivotalComment>(response);
+        }
         #endregion
 
         #region Private Methods
