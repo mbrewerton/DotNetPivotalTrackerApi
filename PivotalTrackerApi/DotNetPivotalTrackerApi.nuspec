@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Mbrewerton.DotNetPivotalTrackerApi</id>
-    <version>1.0.1-alpha</version>
+    <version>1.0.1-alpha1</version>
     <authors>Matt Brewerton</authors>
     <owners>mbrewerton</owners>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
@@ -11,8 +11,17 @@
     <releaseNotes>
       Initial release with partial feature implementation.
     </releaseNotes>
+    <summary>
+      The package is in no way near feature-complete. There will be many
+      new versions and builds in the coming months as features get added and
+      will remain in Alpha until I am satisfied that a decent majority of
+      most-used features are included in the build.
+
+      If you have any requests on features that should be implented as a priority,
+      head over to the GitHub page (https://github.com/mbrewerton/DotNetPivotalTrackerApi)
+      and raise an Issue there.</summary>
     <description>
-      A C# .NET wrapper for the Pivotal Tracker API.
+      A C# .NET wrapper for the Pivotal Tracker API. - NOT FEATURE-COMPLETE.
     </description>
     <tags>dot net .net pivotal tracker wrapper api</tags>
     <dependencies>

@@ -3,7 +3,7 @@
 The DotNet Pivotal Tracker API is a C# wrapper to enable easy use of the Pivotal Tracker REST API in C#.
 
 ## Contribution
-Anyone can contribute to the project via Pull Requests (PRs), but all PRs must be created against the `develop` branch. Contribution branches would preferably be created using gitflow - Create a branch called `feature/your_feature_to_add` from `develop` and then create a PR for `feature/your_feature_to_add` -> `develop`.
+Anyone can contribute to the project via Pull Requests (PRs), but all PRs must be created against the `develop` branch. Contribution branches would preferably be created using gitflow - Create a branch called `feature/your_feature_to_add` from `develop` and then create a PR for `feature/your_feature_to_add` -> `develop`. If you are picking off an item in the TODO list, please include the item name in the description section of your PR.
 
 ## Basic Guide
 To start using the API, create a new PivotalTracker instance `PivotalTracker tracker = new PivotalTracker(YourApiToken)` and you can use all methods in the package from that instance. You must pass a Pivotal Tracker API Key to the PivotalTracker class as it uses this to communicate with the REST API. You can have multiple instances at once with multiple API keys if needed:
@@ -52,6 +52,32 @@ int projectId = 1357;
 PivotalStory story = tracker.GetProjectStories(projectId).First();
 PivotalTask storyTask = tracker.CreateNewStoryTask(projectId, story.Id, "This is a task");
 ```
+
+## Release Notes
+
+### 1.0.1-Alpha1
+- Add GetUserInfo method to Examples
+- Add GetProjects method to Examples
+- Add CreateNewStory method to Examples
+
+### 1.0.1-Alpha
+- Add examples project to the solution
+
+### 1.0.0-Alpha
+- Initial development release
+- Features are limited to Get, Update, Delete stories, comments and tasks
+- Comments handle file attachments
+
+## TODO
+This TODO list is not in any prioritised order, it is basically a dumping ground for the next features that I am planning to work on. If you wish to contribute, check out the [Contribution](https://github.com/mbrewerton/DotNetPivotalTrackerApi#contribution) section.
+
+- Fix HttpClient not allowing multiple requests on the static method
+- Make methods truly Async with syncronous counterparts to provide async flexiblity
+- Create a custom HttpHandler for the HttpClient to provide Unit Testability
+- Provide the ability to persist `projectId` to prevent the need to pass it to every object or method
+- Provide the ability to chain methods using fluent syntax
+- Provide GET/POST/PUT/DELETE functionality for Epics
+- Cover all PT endpoints... eventually...
 
 # Boring Stuff
 ##MIT License
