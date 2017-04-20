@@ -33,7 +33,7 @@ namespace DotNetPivotalTrackerApi.Services
         public PivotalTracker(string apiToken)
         {
             _apiToken = apiToken;
-            // Setups up our HttpService to make sure it is ready to use
+            // Sets up up our HttpService to make sure it is ready to use
             HttpService.SetupHttpClient(_apiToken);
         }
 
