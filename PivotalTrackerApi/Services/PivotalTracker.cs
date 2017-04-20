@@ -177,7 +177,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="projectId">Id of the project.</param>
         /// <param name="storyId">Id of the story.</param>
         /// <param name="pivotalTask">The predefined PivotalNewTask to create.</param>
-        /// <returns></returns>
+        /// <returns>Returns a PivotalTask.</returns>
         public PivotalTask CreateNewStoryTask(int projectId, int storyId, PivotalNewTask pivotalTask)
         {
             var response = HttpService.PostAsync(StringUtil.PivotalStoryTasksUrl(projectId, storyId), pivotalTask).Result;
@@ -185,6 +185,15 @@ namespace DotNetPivotalTrackerApi.Services
             return HandleResponse<PivotalTask>(response);
         }
 
+        /// <summary>
+        /// Creates a new task on a story.
+        /// </summary>
+        /// <param name="projectId">Id of the project.</param>
+        /// <param name="storyId">Id of the story.</param>
+        /// <param name="description">Description of the task.</param>
+        /// <param name="complete">(optional) Determines whether or not the task is marked as "complete". (default: false)</param>
+        /// <param name="position">(optional) Sets the position of the task on the story. If null, the task will be placed at the end of the list. (default: null)</param>
+        /// <returns>Returns a PivotalTask.</returns>
         public PivotalTask CreateNewStoryTask(int projectId, int storyId, string description, bool complete = false, int? position = null)
         {
             var pivotalTask = new PivotalNewTask
@@ -198,6 +207,13 @@ namespace DotNetPivotalTrackerApi.Services
             return HandleResponse<PivotalTask>(response);
         }
 
+        /// <summary>
+        /// Update a task on a story. Uses the <paramref name="pivotalTask"/> with updated data to update the task. It will use the Id property on the model to determine which task should be updated.
+        /// </summary>
+        /// <param name="projectId">Id of the project.</param>
+        /// <param name="storyId">Id of the story.</param>
+        /// <param name="pivotalTask">The task model to update,</param>
+        /// <returns>Returns a PivotalTask.</returns>
         public PivotalTask UpdateStoryTask(int projectId, int storyId, PivotalTask pivotalTask)
         {
             var response = HttpService.PutAsync(StringUtil.PivotalStoryTasksUrl(projectId, storyId, pivotalTask.Id), pivotalTask).Result;
@@ -205,6 +221,13 @@ namespace DotNetPivotalTrackerApi.Services
             return HandleResponse<PivotalTask>(response);
         }
 
+        /// <summary>
+        /// Deletes a task from a story. Will return true if deletion was successful.
+        /// </summary>
+        /// <param name="projectId">Id of the project.</param>
+        /// <param name="storyId">Id of the story.</param>
+        /// <param name="taskId">Id of the task to delete.</param>
+        /// <returns>Returns a Boolean (true) if successful.</returns>
         public bool DeleteStoryTask(int projectId, int storyId, int taskId)
         {
             var response = HttpService.DeleteAsync(StringUtil.PivotalStoryTasksUrl(projectId, storyId, taskId)).Result;
