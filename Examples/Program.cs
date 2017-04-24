@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DotNetPivotalTrackerApi.Models.Stories;
 
 namespace Examples
 {
@@ -21,8 +22,9 @@ namespace Examples
             _mytracker = new PivotalTracker(_apiKey);
 
             //GetUserInfo();
-            GetProjects();
+            //GetProjects();
             //CreateNewStory();
+            //PersistProjectIdToTrackerInstance();
             Console.ReadKey();
         }
 
@@ -45,6 +47,22 @@ namespace Examples
             {
                 Console.WriteLine($@"   - {project.Name} {(project.Public == false ? "(PRIVATE)" : "")}");
             }
+        }
+
+        private static void PersistProjectIdToTrackerInstance()
+        {
+            // Just grab us the first Project our API Key has access to
+            int projectIdToPersist = 
+                _mytracker.GetProjects()
+                .First()
+                .Id;
+            // Create a new PivotalTracker instance so that it doesn't interfere with `_mytracker`.
+            // Passing it an Id will cause it to persist that Id
+            PivotalTracker newTracker = new PivotalTracker(_apiKey, projectIdToPersist);
+
+            // We can call the GetProjectStories without passing a projectId as we have one persisted
+            List<PivotalStory> projectStories = newTracker.GetProjectStories();
+            Console.WriteLine($"Found {projectStories.Count} stories using the persisted Project Id '{projectIdToPersist}'");
         }
 
         private static void CreateNewStory()
