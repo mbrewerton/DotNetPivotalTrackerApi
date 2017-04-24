@@ -24,17 +24,30 @@ namespace DotNetPivotalTrackerApi.Services
 
         private JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
         private readonly string _apiToken;
+        private int? _projectId;
         public string ApiToken => _apiToken;
+        public int? ProjectId => _projectId;
 
         /// <summary>
         /// Instantiates a new PivotalTracker instance using the specified apiToken (visit <see cref="https://www.pivotaltracker.com/profile"/> to generate a token).
         /// </summary>
         /// <param name="apiToken">Your Api Token.</param>
-        public PivotalTracker(string apiToken)
+        /// <param name="projectId">(optional) Persists the projectId that you wish to use for the tracker instance. You can override this with <see cref="SetProjectId(int?)"/></param>
+        public PivotalTracker(string apiToken, int? projectId = null)
         {
             _apiToken = apiToken;
             // Sets up up our HttpService to make sure it is ready to use
             HttpService.SetupHttpClient(_apiToken);
+        }
+
+        /// <summary>
+        /// Sets the persisted Project Id for the Pivotal Tracker instance. Setting this to null will make methods throw a <see cref="PivotalMethodNotValidException"/> 
+        /// if you do not pass a projectId to the method.
+        /// </summary>
+        /// <param name="projectId">Project id to persist for the PivotalTracker instance.</param>
+        public void SetProjectId(int? projectId)
+        {
+            _projectId = projectId;
         }
 
         #region User
@@ -61,6 +74,22 @@ namespace DotNetPivotalTrackerApi.Services
             var response = HttpService.GetAsync("projects").Result;
 
             return HandleResponse<List<PivotalProject>>(response);
+        }
+
+        /// <summary>
+        /// Gets the current project for the PivotalTracker instance. If a <paramref name="projectId"/> is passed to the method, it will use that to get the project, otherwise it looks to the persisted <see cref="_projectId"/>.
+        /// Throws <see cref="NullReferenceException"/> if both are null.
+        /// </summary>
+        /// <param name="projectId">(optional) Id of the project (default: null)</param>
+        /// <returns>Returns a PivotalProject by Id.</returns>
+        public PivotalProject GetCurrentProject(int? projectId = null)
+        {
+            if (_projectId == null && projectId == null) throw new NullReferenceException(@"
+                The current PivotalTracker instance has no persisted ProjectId and you did not pass one to the method.
+                If you wish to use this method without a persisted ProjectId then you must pass one as a parameter.");
+
+            var response = HttpService.GetAsync(StringUtil.PivotalProjectsUrl(projectId ?? _projectId)).Result;
+            return HandleResponse<PivotalProject>(response);
         }
 
         /// <summary>

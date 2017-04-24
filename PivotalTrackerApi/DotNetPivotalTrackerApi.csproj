@@ -47,6 +47,7 @@
     <Compile Include="Enums\StoryState.cs" />
     <Compile Include="Enums\StoryType.cs" />
     <Compile Include="Exceptions\PivotalAuthorisationException.cs" />
+    <Compile Include="Exceptions\PivotalMethodNotValidException.cs" />
     <Compile Include="Exceptions\PivotalNotFoundException.cs" />
     <Compile Include="Exceptions\PivotalException.cs" />
     <Compile Include="Exceptions\PivotalHttpException.cs" />

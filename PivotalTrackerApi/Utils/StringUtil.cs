@@ -71,6 +71,11 @@ namespace DotNetPivotalTrackerApi.Utils
             return $"projects/{projectId}/stories/{storyId}/comments/{commentId}";
         }
 
+        public static string PivotalProjectsUrl(int? projectId = null)
+        {
+            return $"projects/{(projectId != null ? "/" + projectId : "")}";
+        }
+
         /// <summary>
         /// Returns the relative url for accessing Pivotal uploads as a string.
         /// </summary>
