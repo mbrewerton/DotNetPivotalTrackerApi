@@ -23,6 +23,7 @@ namespace DotNetPivotalTrackerApi.Services
     {
 
         private JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+        private readonly HttpService HttpService;
         private readonly string _apiToken;
         private int? _projectId;
         public string ApiToken => _apiToken;
@@ -36,6 +37,8 @@ namespace DotNetPivotalTrackerApi.Services
         public PivotalTracker(string apiToken, int? projectId = null)
         {
             _apiToken = apiToken;
+            _projectId = projectId;
+            HttpService = new HttpService();
             // Sets up up our HttpService to make sure it is ready to use
             HttpService.SetupHttpClient(_apiToken);
         }
@@ -469,9 +472,7 @@ namespace DotNetPivotalTrackerApi.Services
                 // Both Project Ids are null. Throw if throwException is true, throw NullReferenceException
                 if (throwException)
                 {
-                    throw new NullReferenceException(@"
-                        The current PivotalTracker instance has no persisted ProjectId and you did not pass one to the method.
-                        If you wish to use this method without a persisted ProjectId then you must pass one as a parameter.");
+                    throw new NullReferenceException("The current PivotalTracker instance has no persisted ProjectId and you did not pass one to the method. If you wish to use this method without a persisted ProjectId then you must pass one as a parameter.");
                 }
 
                 // throwException is false, so we want to return a boolean `false`
