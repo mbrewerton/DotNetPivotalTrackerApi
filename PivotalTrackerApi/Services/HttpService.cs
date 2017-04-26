@@ -10,20 +10,20 @@ using DotNetPivotalTrackerApi.Exceptions;
 
 namespace DotNetPivotalTrackerApi.Services
 { 
-    public static class HttpService
+    public class HttpService
     {
-        private static string _apiToken;
-        public static string ApiToken => _apiToken;
+        private string _apiToken;
+        public string ApiToken => _apiToken;
 
-        private static readonly string _baseUrl = "https://www.pivotaltracker.com/services/v5/";
-        private static readonly HttpClient HttpClient = new HttpClient();
+        private readonly string _baseUrl = "https://www.pivotaltracker.com/services/v5/";
+        private readonly HttpClient HttpClient = new HttpClient();
 
-        private static StringContent CreateStringContent(string content)
+        private StringContent CreateStringContent(string content)
         {
             return new StringContent(content, Encoding.UTF8, "application/json");
         }
 
-        public static void SetupHttpClient(string apiToken)
+        public void SetupHttpClient(string apiToken)
         {
             _apiToken = apiToken;
             HttpClient.BaseAddress = new Uri(_baseUrl);
@@ -36,7 +36,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// </summary>
         /// <param name="path">URL of the path to call as a string.</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> GetAsync(string path)
+        public async Task<HttpResponseMessage> GetAsync(string path)
         {
             CheckTokenExists();
             return await HttpClient.GetAsync(path);        
@@ -49,7 +49,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="path">URL of the path to call as a string.</param>
         /// <param name="data">Model data to be serialised as JSON.</param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> PostAsync<T>(string path, T data)
+        public async Task<HttpResponseMessage> PostAsync<T>(string path, T data)
         {
             CheckTokenExists();
             var content = CreateStringContent(JsonService.SerializeObjectToJson(data));
@@ -63,7 +63,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="path">URL of the path to call as a string.</param>
         /// <param name="data">Model data to be serialised as JSON.</param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> PutAsync<T>(string path, T data)
+        public async Task<HttpResponseMessage> PutAsync<T>(string path, T data)
         {
             CheckTokenExists();
             var content = CreateStringContent(JsonService.SerializeObjectToJson(data));
@@ -78,7 +78,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="data">Data to be sent in the POST request as HttpContent</param>
         /// <param name="serialiseToJson">Whether or not to serialise as JSON. Calls <see cref="PostAsync{T}(string, T)"/> if true. Default: false.</param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> PostContentAsync<T>(string path, T data, bool serialiseToJson = false) where T : HttpContent
+        public async Task<HttpResponseMessage> PostContentAsync<T>(string path, T data, bool serialiseToJson = false) where T : HttpContent
         {
             CheckTokenExists();
             if (serialiseToJson)
@@ -87,13 +87,13 @@ namespace DotNetPivotalTrackerApi.Services
             return await HttpClient.PostAsync(path, data);
         }
 
-        public static async Task<HttpResponseMessage> DeleteAsync(string path)
+        public async Task<HttpResponseMessage> DeleteAsync(string path)
         {
             CheckTokenExists();
             return await HttpClient.DeleteAsync(path);
         }
 
-        private static void CheckTokenExists()
+        private void CheckTokenExists()
         {
             if (string.IsNullOrEmpty(_apiToken))
                 throw new PivotalAuthorisationException("Api Token has not been set. Please set it using HttpService.SetupHttpClient(string apiToken).");
