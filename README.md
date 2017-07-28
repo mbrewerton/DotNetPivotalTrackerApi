@@ -1,4 +1,4 @@
-# DotNetPivotalTrackerApi
+# DotNet Pivotal Tracker Api
 ## About
 The DotNet Pivotal Tracker API is a C# wrapper to enable easy use of the Pivotal Tracker REST API in C#.
 
