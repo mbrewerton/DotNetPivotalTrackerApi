@@ -55,6 +55,9 @@ PivotalTask storyTask = tracker.CreateNewStoryTask(projectId, story.Id, "This is
 
 ## Release Notes
 
+### 1.0.3-Alpha1
+- Package is now compatible with UWP/UAP10 projects by referencing the 
+
 ### 1.0.1-Alpha2
 - Added the ability to persist a Project Id to a PivotalTracker instance by passing as a parameter
 - Fixed HttpClient conflicts when using multiple PivotalTracker instances at once
