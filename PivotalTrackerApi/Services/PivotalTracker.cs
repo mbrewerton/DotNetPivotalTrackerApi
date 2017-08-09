@@ -16,6 +16,7 @@ using DotNetPivotalTrackerApi.Models.Project;
 using DotNetPivotalTrackerApi.Models.User;
 using DotNetPivotalTrackerApi.Utils;
 using DotNetPivotalTrackerApi.Models.Tasks;
+using DotNetPivotalTrackerApi.Models.Epics;
 
 namespace DotNetPivotalTrackerApi.Services
 {
@@ -452,6 +453,21 @@ namespace DotNetPivotalTrackerApi.Services
             var response = HttpService.PutAsync(StringUtil.PivotalCommentsUrl(properProjectId, storyId, comment.Id), comment).Result;
 
             return HandleResponse<PivotalComment>(response);
+        }
+        #endregion
+
+        #region Epics
+        /// <summary>
+        /// Gets all epics for a project by Id.
+        /// </summary>
+        /// <param name="projectId">Id of the project.</param>
+        /// <returns>Returns a List&lt;PivotalEpic&gt;</returns>
+        public List<PivotalEpic> GetEpics(int? projectId, string filter = "")
+        {
+            int properProjectId = GetProjectIdToUse(projectId);
+            var response = HttpService.GetAsync(StringUtil.PivotalEpicsUrl(properProjectId), filter).Result;
+
+            return HandleResponse<List<PivotalEpic>>(response);
         }
         #endregion
 

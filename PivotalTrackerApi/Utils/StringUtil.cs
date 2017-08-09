@@ -17,6 +17,12 @@ namespace DotNetPivotalTrackerApi.Utils
         {
             return $"me";
         }
+
+        public static string PivotalEpicsUrl(int projectId)
+        {
+            return $"projects/{projectId}/epics";
+        }
+
         /// <summary>
         /// Returns the relative url for accessing all Pivotal stories within a project as a string.
         /// </summary>

@@ -55,6 +55,7 @@
     <Compile Include="Models\Attachments\PivotalAttachment.cs" />
     <Compile Include="Models\Attachments\PivotalNewAttachment.cs" />
     <Compile Include="Models\Comments\PivotalComment.cs" />
+    <Compile Include="Models\Epics\PivotalEpic.cs" />
     <Compile Include="Models\PivotalModel.cs" />
     <Compile Include="Models\Project\PivotalProject.cs" />
     <Compile Include="Models\Stories\PivotalLabel.cs" />
