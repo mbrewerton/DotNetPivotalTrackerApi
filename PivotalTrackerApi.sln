@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PivotalTrackerTests", "Pivo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "Examples\Examples.csproj", "{96E0C8C0-4968-4B74-88C7-2F4BF024A042}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPivotalTrackerApi.Portable", "DotNetPivotalTrackerApi.Portable\DotNetPivotalTrackerApi.Portable.csproj", "{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,22 @@ Global
 		{96E0C8C0-4968-4B74-88C7-2F4BF024A042}.Release|x64.Build.0 = Release|Any CPU
 		{96E0C8C0-4968-4B74-88C7-2F4BF024A042}.Release|x86.ActiveCfg = Release|Any CPU
 		{96E0C8C0-4968-4B74-88C7-2F4BF024A042}.Release|x86.Build.0 = Release|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Debug|ARM.Build.0 = Debug|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Debug|x64.Build.0 = Debug|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Debug|x86.Build.0 = Debug|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Release|ARM.ActiveCfg = Release|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Release|ARM.Build.0 = Release|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Release|x64.ActiveCfg = Release|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Release|x64.Build.0 = Release|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Release|x86.ActiveCfg = Release|Any CPU
+		{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
