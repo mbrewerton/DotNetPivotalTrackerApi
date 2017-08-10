@@ -55,8 +55,13 @@ PivotalTask storyTask = tracker.CreateNewStoryTask(projectId, story.Id, "This is
 
 ## Release Notes
 
-### 1.0.3-Alpha1
-- Package is now compatible with UWP/UAP10 projects by referencing the `DotNetPivotalTrackerApi.Portable` namespace
+### 1.0.4-Alpha
+- Fixed previously broken build
+- Included support for UAP applications in addition to regular .NET 4.5 applications
+  - This uses the same namespace (`DotNetPivotalTrackerApi`) unlike the previous "Portable" build
+
+### ~~1.0.3-Alpha1~~
+~~- Package is now compatible with UWP/UAP10 projects by referencing the `DotNetPivotalTrackerApi.Portable` namespace~~
 
 ### 1.0.1-Alpha2
 - Added the ability to persist a Project Id to a PivotalTracker instance by passing as a parameter

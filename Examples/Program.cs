@@ -1,14 +1,13 @@
-﻿using DotNetPivotalTrackerApi.Enums;
-using DotNetPivotalTrackerApi.Models.Project;
-using DotNetPivotalTrackerApi.Models.User;
-using DotNetPivotalTrackerApi.Services;
+﻿using DotNetPivotalTrackerApi;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DotNetPivotalTrackerApi.Enums;
+using DotNetPivotalTrackerApi.Models.Project;
 using DotNetPivotalTrackerApi.Models.Stories;
+using DotNetPivotalTrackerApi.Models.User;
+using DotNetPivotalTrackerApi.Services;
 
 namespace Examples
 {
@@ -21,10 +20,10 @@ namespace Examples
         {
             _mytracker = new PivotalTracker(_apiKey);
 
-            //GetUserInfo();
-            //GetProjects();
-            //CreateNewStory();
-            //PersistProjectIdToTrackerInstance();
+            GetUserInfo();
+            GetProjects();
+            CreateNewStory();
+            PersistProjectIdToTrackerInstance();
             Console.ReadKey();
         }
 

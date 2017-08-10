@@ -34,6 +34,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '.NET|AnyCPU'">
+    <OutputPath>bin\.NET\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="Package.nuspec">
       <SubType>Designer</SubType>
@@ -42,32 +52,78 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\StoryState.cs" />
-    <Compile Include="Enums\StoryType.cs" />
-    <Compile Include="Exceptions\PivotalAuthorisationException.cs" />
-    <Compile Include="Exceptions\PivotalException.cs" />
-    <Compile Include="Exceptions\PivotalHttpException.cs" />
-    <Compile Include="Exceptions\PivotalMethodNotValidException.cs" />
-    <Compile Include="Exceptions\PivotalNotFoundException.cs" />
-    <Compile Include="Exceptions\PivotalUserException.cs" />
-    <Compile Include="Models\Attachments\PivotalAttachment.cs" />
-    <Compile Include="Models\Attachments\PivotalNewAttachment.cs" />
-    <Compile Include="Models\Comments\PivotalComment.cs" />
-    <Compile Include="Models\PivotalModel.cs" />
-    <Compile Include="Models\Project\PivotalProject.cs" />
-    <Compile Include="Models\Stories\PivotalLabel.cs" />
-    <Compile Include="Models\Stories\PivotalNewStory.cs" />
-    <Compile Include="Models\Stories\PivotalStory.cs" />
-    <Compile Include="Models\Tasks\PivotalNewTask.cs" />
-    <Compile Include="Models\Tasks\PivotalTask.cs" />
-    <Compile Include="Models\User\PivotalUser.cs" />
-    <Compile Include="Models\User\PivotalUserProject.cs" />
+    <Compile Include="..\PivotalTrackerApi\Enums\StoryState.cs">
+      <Link>Enums\StoryState.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Enums\StoryType.cs">
+      <Link>Enums\StoryType.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalAuthorisationException.cs">
+      <Link>Exceptions\PivotalAuthorisationException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalException.cs">
+      <Link>Exceptions\PivotalException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalHttpException.cs">
+      <Link>Exceptions\PivotalHttpException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalMethodNotValidException.cs">
+      <Link>Exceptions\PivotalMethodNotValidException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalNotFoundException.cs">
+      <Link>Exceptions\PivotalNotFoundException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalUserException.cs">
+      <Link>Exceptions\PivotalUserException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Attachments\PivotalAttachment.cs">
+      <Link>Models\Attachments\PivotalAttachment.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Attachments\PivotalNewAttachment.cs">
+      <Link>Models\Attachments\PivotalNewAttachment.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Comments\PivotalComment.cs">
+      <Link>Models\Comments\PivotalComment.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Project\PivotalProject.cs">
+      <Link>Models\Project\PivotalProject.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Stories\PivotalLabel.cs">
+      <Link>Models\Stories\PivotalLabel.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Stories\PivotalNewStory.cs">
+      <Link>Models\Stories\PivotalNewStory.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Stories\PivotalStory.cs">
+      <Link>Models\Stories\PivotalStory.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Tasks\PivotalNewTask.cs">
+      <Link>Models\Tasks\PivotalNewTask.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Tasks\PivotalTask.cs">
+      <Link>Models\Tasks\PivotalTask.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\User\PivotalUser.cs">
+      <Link>Models\User\PivotalUser.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\User\PivotalUserProject.cs">
+      <Link>Models\User\PivotalUserProject.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Services\HttpService.cs">
+      <Link>Services\HttpService.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Services\JsonService.cs">
+      <Link>Services\JsonService.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Services\PivotalTracker.cs">
+      <Link>Services\PivotalTracker.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Utils\StringUtil.cs">
+      <Link>Utils\StringUtil.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\HttpService.cs" />
-    <Compile Include="Services\JsonService.cs" />
-    <Compile Include="Services\PivotalTracker.cs" />
-    <Compile Include="Utils\StringUtil.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
