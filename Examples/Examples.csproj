@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetPivotalTrackerApi, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mbrewerton.DotNetPivotalTrackerApi.1.0.3-alpha9\lib\net45\DotNetPivotalTrackerApi.dll</HintPath>
+      <HintPath>..\packages\Mbrewerton.DotNetPivotalTrackerApi.1.0.4-alpha\lib\net45\DotNetPivotalTrackerApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">

@@ -3,10 +3,7 @@ using Newtonsoft.Json.Serialization;
 using DotNetPivotalTrackerApi.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using DotNetPivotalTrackerApi.Enums;
 using DotNetPivotalTrackerApi.Models.Stories;
 using System.IO;
@@ -553,7 +550,7 @@ namespace DotNetPivotalTrackerApi.Services
             var text = response.Content.ReadAsStringAsync().Result;
 
             // Throws new exception with the body of our response result.
-            throw new PivotalHttpException($"Result was unsuccessful. {text}");
+            throw new PivotalHttpException($"Result was unsuccessful. {text}", new Exception(text));
         }
         #endregion
     }
