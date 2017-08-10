@@ -2,6 +2,8 @@
 ## About
 The .NET Wrapper for Pivotal Tracker API is a .NET wrapper to enable easy use of the Pivotal Tracker REST API. It is current compatible with .NET4.5 and UAP10.0 applications.
 
+You can access the nuget package here: [Nuget Package](https://www.nuget.org/packages/Mbrewerton.DotNetPivotalTrackerApi).
+
 ## Contribution
 Anyone can contribute to the project via Pull Requests (PRs), but all PRs must be created against the `develop` branch. Contribution branches would preferably be created using gitflow - Create a branch called `feature/your_feature_to_add` from `develop` and then create a PR for `feature/your_feature_to_add` -> `develop`. If you are picking off an item in the TODO list, please include the item name in the description section of your PR.
 
