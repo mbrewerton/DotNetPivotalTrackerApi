@@ -93,7 +93,7 @@ This TODO list is not in any prioritised order, it is basically a dumping ground
 - Eventually cover all PT endpoints... Give a dev a chance!
 
 # Boring Stuff
-##MIT License
+## MIT License
 
 Copyright (c) 2016
 
