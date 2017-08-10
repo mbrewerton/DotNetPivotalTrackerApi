@@ -16,8 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Package.nuspec = Package.nuspec
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetPivotalTracker.Standard", "DotNetPivotalTracker.Standard\DotNetPivotalTracker.Standard.csproj", "{537791FF-8EF1-4884-9699-0C595F9A9820}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		.NET|Any CPU = .NET|Any CPU
@@ -130,30 +128,6 @@ Global
 		{B80711B6-AC08-41B9-A16F-72FD92F4C12C}.Release|x64.Build.0 = Release|Any CPU
 		{B80711B6-AC08-41B9-A16F-72FD92F4C12C}.Release|x86.ActiveCfg = Release|Any CPU
 		{B80711B6-AC08-41B9-A16F-72FD92F4C12C}.Release|x86.Build.0 = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}..NET|Any CPU.ActiveCfg = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}..NET|Any CPU.Build.0 = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}..NET|ARM.ActiveCfg = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}..NET|ARM.Build.0 = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}..NET|x64.ActiveCfg = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}..NET|x64.Build.0 = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}..NET|x86.ActiveCfg = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}..NET|x86.Build.0 = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Debug|ARM.Build.0 = Debug|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Debug|x64.Build.0 = Debug|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Debug|x86.Build.0 = Debug|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Release|Any CPU.Build.0 = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Release|ARM.ActiveCfg = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Release|ARM.Build.0 = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Release|x64.ActiveCfg = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Release|x64.Build.0 = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Release|x86.ActiveCfg = Release|Any CPU
-		{537791FF-8EF1-4884-9699-0C595F9A9820}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
