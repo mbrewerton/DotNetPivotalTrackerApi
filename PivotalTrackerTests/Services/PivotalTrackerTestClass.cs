@@ -109,7 +109,7 @@ namespace PivotalTrackerTests.Services
             Assert.NotNull(project);
         }
 
-        [Fact]
+        [Fact(Skip="Incomplete")]
         private void Test_Get_Project_Stories()
         {
             _tracker = new TestPivotalTracker(_fakeHttpService.Object);
