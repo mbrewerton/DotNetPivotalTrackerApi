@@ -87,7 +87,6 @@
     <Compile Include="Services\PivotalTrackerTestClass.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Appy.config.tpl" />
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
