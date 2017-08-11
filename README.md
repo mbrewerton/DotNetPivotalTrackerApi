@@ -1,4 +1,10 @@
 # .NET Wrapper for Pivotal Tracker Api
+
+Master Build Status: [![Build status](https://ci.appveyor.com/api/projects/status/j22e5m0yp3j29gmj/branch/master?svg=true)](https://github.com/mbrewerton/DotNetPivotalTrackerApi/tree/master)
+
+Development Build Status: [![Build status](https://ci.appveyor.com/api/projects/status/j22e5m0yp3j29gmj/branch/develop?svg=true)](https://github.com/mbrewerton/DotNetPivotalTrackerApi/tree/develop)
+
+
 ## About
 The .NET Wrapper for Pivotal Tracker API is a .NET wrapper to enable easy use of the Pivotal Tracker REST API. It is current compatible with .NET4.5 and UAP10.0 applications.
 
