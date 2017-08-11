@@ -109,26 +109,23 @@ namespace PivotalTrackerTests.Services
             Assert.NotNull(project);
         }
 
-        [Fact(Skip="Incomplete")]
+        [Fact]
         private void Test_Get_Project_Stories()
         {
             _tracker = new TestPivotalTracker(_fakeHttpService.Object);
-            var returnProject = new PivotalStory { Id = 1, Name = "Project 1" };
-            var response = CreateResponse(returnProject);
+            var returnStories = new List<PivotalStory>
+            {
+                new PivotalStory { Id = 1, Name = "Story 1" },
+                new PivotalStory { Id = 2, Name = "Story 2" },
+                new PivotalStory { Id = 3, Name = "Story 3" },
+            };
+            var response = CreateResponse(returnStories);
             _fakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var project = _tracker.GetProjectStories(1);
+            var stories = _tracker.GetProjectStories(1);
 
-            Assert.NotNull(project);
+            Assert.NotNull(stories);
         }
-
-        //[Fact]
-        //public void TestGetProjectStories()
-        //{
-        //    var projectStories = pt.GetProjectStories(_testProjectId);
-
-        //    Assert.IsNotNull(projectStories);
-        //}
 
         //[Fact]
         //public void TestCreateProjectStoryWithFullCtor()
