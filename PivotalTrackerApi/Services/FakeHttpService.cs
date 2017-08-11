@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -10,7 +11,7 @@ using DotNetPivotalTrackerApi.Exceptions;
 
 namespace DotNetPivotalTrackerApi.Services
 { 
-    public class HttpService : IHttpService
+    public class FakeHttpService : IHttpService
     {
         private string _apiToken;
         public string ApiToken => _apiToken;
@@ -23,7 +24,7 @@ namespace DotNetPivotalTrackerApi.Services
             return new StringContent(content, Encoding.UTF8, "application/json");
         }
 
-        public void SetupHttpClient(string apiToken)
+        public virtual void SetupHttpClient(string apiToken)
         {
             _apiToken = apiToken;
             HttpClient.BaseAddress = new Uri(_baseUrl);
@@ -36,10 +37,9 @@ namespace DotNetPivotalTrackerApi.Services
         /// </summary>
         /// <param name="path">URL of the path to call as a string.</param>
         /// <returns>HttpResponseMessage</returns>
-        public async Task<HttpResponseMessage> GetAsync(string path)
+        public virtual async Task<HttpResponseMessage> GetAsync(string path)
         {
-            CheckTokenExists();
-            return await HttpClient.GetAsync(path);        
+            return new HttpResponseMessage(HttpStatusCode.OK);        
         }
 
         /// <summary>
@@ -49,11 +49,9 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="path">URL of the path to call as a string.</param>
         /// <param name="data">Model data to be serialised as JSON.</param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> PostAsync<T>(string path, T data)
+        public virtual async Task<HttpResponseMessage> PostAsync<T>(string path, T data)
         {
-            CheckTokenExists();
-            var content = CreateStringContent(JsonService.SerializeObjectToJson(data));
-            return await HttpClient.PostAsync(path, content);
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         /// <summary>
@@ -63,11 +61,9 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="path">URL of the path to call as a string.</param>
         /// <param name="data">Model data to be serialised as JSON.</param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> PutAsync<T>(string path, T data)
+        public virtual async Task<HttpResponseMessage> PutAsync<T>(string path, T data)
         {
-            CheckTokenExists();
-            var content = CreateStringContent(JsonService.SerializeObjectToJson(data));
-            return await HttpClient.PutAsync(path, content);
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         /// <summary>
@@ -78,25 +74,18 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="data">Data to be sent in the POST request as HttpContent</param>
         /// <param name="serialiseToJson">Whether or not to serialise as JSON. Calls <see cref="PostAsync{T}(string, T)"/> if true. Default: false.</param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> PostContentAsync<T>(string path, T data, bool serialiseToJson = false) where T : HttpContent
+        public virtual async Task<HttpResponseMessage> PostContentAsync<T>(string path, T data, bool serialiseToJson = false) where T : HttpContent
         {
-            CheckTokenExists();
             if (serialiseToJson)
                 return await PostAsync<T>(path, data);
 
-            return await HttpClient.PostAsync(path, data);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        public async Task<HttpResponseMessage> DeleteAsync(string path)
+        public virtual async Task<HttpResponseMessage> DeleteAsync(string path)
         {
-            CheckTokenExists();
-            return await HttpClient.DeleteAsync(path);
-        }
-
-        private void CheckTokenExists()
-        {
-            if (string.IsNullOrEmpty(_apiToken))
-                throw new PivotalAuthorisationException("Api Token has not been set. Please set it using HttpService.SetupHttpClient(string apiToken).");
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }
 }

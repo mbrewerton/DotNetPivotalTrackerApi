@@ -19,11 +19,11 @@ using DotNetPivotalTrackerApi.Models.Tasks;
 
 namespace DotNetPivotalTrackerApi.Services
 {
-    public class PivotalTracker
+    public class PivotalTracker : IPivotalTracker
     {
 
         private JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-        private readonly HttpService HttpService;
+        private readonly IHttpService HttpService;
         private readonly string _apiToken;
         private int? _projectId;
         public string ApiToken => _apiToken;
@@ -41,6 +41,11 @@ namespace DotNetPivotalTrackerApi.Services
             HttpService = new HttpService();
             // Sets up up our HttpService to make sure it is ready to use
             HttpService.SetupHttpClient(_apiToken);
+        }
+
+        public PivotalTracker(IHttpService httpService)
+        {
+            HttpService = httpService;
         }
 
         /// <summary>
