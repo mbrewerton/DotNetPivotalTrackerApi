@@ -20,7 +20,7 @@ namespace DotNetPivotalTrackerApi.Services
     {
 
         private JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-        private readonly HttpService HttpService;
+        protected IHttpService HttpService;
         private readonly string _apiToken;
         private int? _projectId;
         public string ApiToken => _apiToken;
@@ -84,7 +84,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <returns>Returns a PivotalProject by Id.</returns>
         public PivotalProject GetCurrentProject(int? projectId = null)
         {
-
+            if (projectId == null && _projectId == null) throw new PivotalException("You must either pass a projectId to this method or use a persisted ProjectId when instantiating the PivotalTracker class.");
             var response = HttpService.GetAsync(StringUtil.PivotalProjectsUrl(projectId ?? _projectId)).Result;
             return HandleResponse<PivotalProject>(response);
         }

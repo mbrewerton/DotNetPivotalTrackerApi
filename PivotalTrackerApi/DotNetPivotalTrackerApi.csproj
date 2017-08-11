@@ -65,7 +65,9 @@
     <Compile Include="Models\User\PivotalUser.cs" />
     <Compile Include="Models\User\PivotalUserProject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FakeHttpService.cs" />
     <Compile Include="Services\HttpService.cs" />
+    <Compile Include="Services\IHttpService.cs" />
     <Compile Include="Services\JsonService.cs" />
     <Compile Include="Services\PivotalTracker.cs" />
     <Compile Include="Utils\StringUtil.cs" />
