@@ -243,5 +243,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-/PivotalTrackerTests/
+
+
 Examples/App.config

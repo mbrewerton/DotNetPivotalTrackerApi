@@ -115,9 +115,6 @@
     <Compile Include="..\PivotalTrackerApi\Services\IHttpService.cs">
       <Link>Services\IHttpService.cs</Link>
     </Compile>
-    <Compile Include="..\PivotalTrackerApi\Services\IPivotalTracker.cs">
-      <Link>Services\IPivotalTracker.cs</Link>
-    </Compile>
     <Compile Include="..\PivotalTrackerApi\Services\JsonService.cs">
       <Link>Services\JsonService.cs</Link>
     </Compile>
