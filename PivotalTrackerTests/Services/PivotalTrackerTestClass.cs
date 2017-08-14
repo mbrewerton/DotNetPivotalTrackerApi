@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -125,6 +126,14 @@ namespace PivotalTrackerTests.Services
             var stories = _tracker.GetProjectStories(1);
 
             Assert.NotNull(stories);
+        }
+
+        [Fact]
+        public void Test_CheckProjectIds_Throws_If_Both_Null()
+        {
+            _tracker = new TestPivotalTracker(_fakeHttpService.Object);
+
+            Assert.Throws<NullReferenceException>(() => _tracker.CheckProjectIds(null));
         }
 
         //[Fact]
