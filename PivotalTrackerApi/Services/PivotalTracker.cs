@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DotNetPivotalTrackerApi.Enums;
 using DotNetPivotalTrackerApi.Models.Stories;
 using System.IO;
+using System.Runtime.CompilerServices;
 using DotNetPivotalTrackerApi.Models.Attachments;
 using DotNetPivotalTrackerApi.Models.Comments;
 using DotNetPivotalTrackerApi.Models.Project;
@@ -23,7 +24,7 @@ namespace DotNetPivotalTrackerApi.Services
     {
 
         private JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-        protected IHttpService HttpService;
+        internal IHttpService HttpService;
         private readonly string _apiToken;
         private int? _projectId;
         public string ApiToken => _apiToken;
