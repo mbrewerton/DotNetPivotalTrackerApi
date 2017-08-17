@@ -62,7 +62,7 @@ namespace PivotalTrackerTests.Services
 
             var projects = tracker.GetProjects();
 
-            Assert.Equal(3, projects.Result.Count);
+            Assert.Equal(3, projects.Count);
         }
 
         [Fact]
