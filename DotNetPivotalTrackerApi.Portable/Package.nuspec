@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Mbrewerton.DotNetPivotalTrackerApi</id>
-    <version>1.0.4-alpha</version>
+    <version>1.0.3-alpha1</version>
     <authors>Matt Brewerton</authors>
     <owners>mbrewerton</owners>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
@@ -11,7 +11,6 @@
     <releaseNotes>
       Features:
       - Now compatible with UAP/UWP projects
-      - Sincere apologies for breaking the previous build on non-UAP projects 
     </releaseNotes>
     <summary>
       The package is in no way near feature-complete. There will be many
@@ -32,11 +31,12 @@
       <dependency id="Newtonsoft.Json" version="9.0" />
     </dependencies>
   </metadata>
+
     <files>
-      <!-- .NET 4.5 -->
-      <file src="PivotalTrackerApi\bin\Release\DotNetPivotalTrackerApi.dll" target="lib\net45\DotNetPivotalTrackerApi.dll" />
+      <!-- .NET 4.6 -->
+      <file src="bin\Release\DotNetPivotalTrackerApi.Portable.dll" target="lib\net46\DotNetPivotalTrackerApi-Net46.dll" />
       
       <!-- UAP -->
-      <file src="DotNetPivotalTrackerApi.Portable\bin\Release\DotNetPivotalTrackerApi.Portable.dll" target="lib\uap10.0\DotNetPivotalTrackerApi.dll" />
+      <file src="bin\Release\DotNetPivotalTrackerApi.Portable.dll" target="lib\uap10.0\DotNetPivotalTrackerApi-Uap10.dll" />
     </files>
 </package>

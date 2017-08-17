@@ -47,10 +47,10 @@
     <Compile Include="Enums\StoryState.cs" />
     <Compile Include="Enums\StoryType.cs" />
     <Compile Include="Exceptions\PivotalAuthorisationException.cs" />
-    <Compile Include="Exceptions\PivotalMethodNotValidException.cs" />
-    <Compile Include="Exceptions\PivotalNotFoundException.cs" />
     <Compile Include="Exceptions\PivotalException.cs" />
     <Compile Include="Exceptions\PivotalHttpException.cs" />
+    <Compile Include="Exceptions\PivotalMethodNotValidException.cs" />
+    <Compile Include="Exceptions\PivotalNotFoundException.cs" />
     <Compile Include="Exceptions\PivotalUserException.cs" />
     <Compile Include="Models\Attachments\PivotalAttachment.cs" />
     <Compile Include="Models\Attachments\PivotalNewAttachment.cs" />
@@ -63,12 +63,14 @@
     <Compile Include="Models\Stories\PivotalStory.cs" />
     <Compile Include="Models\Tasks\PivotalNewTask.cs" />
     <Compile Include="Models\Tasks\PivotalTask.cs" />
-    <Compile Include="Models\User\PivotalUserProject.cs" />
     <Compile Include="Models\User\PivotalUser.cs" />
+    <Compile Include="Models\User\PivotalUserProject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FakeHttpService.cs" />
+    <Compile Include="Services\HttpService.cs" />
+    <Compile Include="Services\IHttpService.cs" />
     <Compile Include="Services\JsonService.cs" />
     <Compile Include="Services\PivotalTracker.cs" />
-    <Compile Include="Services\HttpService.cs" />
     <Compile Include="Utils\StringUtil.cs" />
   </ItemGroup>
   <ItemGroup>

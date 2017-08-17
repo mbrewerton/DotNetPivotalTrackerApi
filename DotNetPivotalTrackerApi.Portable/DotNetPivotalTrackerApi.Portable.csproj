@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5F2F19B0-3D93-4790-AE2C-366DC01F8FFF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DotNetPivotalTrackerApi.Portable</RootNamespace>
+    <AssemblyName>DotNetPivotalTrackerApi.Portable</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '.NET|AnyCPU'">
+    <OutputPath>bin\.NET\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Package.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="project.json" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\PivotalTrackerApi\Enums\StoryState.cs">
+      <Link>Enums\StoryState.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Enums\StoryType.cs">
+      <Link>Enums\StoryType.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalAuthorisationException.cs">
+      <Link>Exceptions\PivotalAuthorisationException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalException.cs">
+      <Link>Exceptions\PivotalException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalHttpException.cs">
+      <Link>Exceptions\PivotalHttpException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalMethodNotValidException.cs">
+      <Link>Exceptions\PivotalMethodNotValidException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalNotFoundException.cs">
+      <Link>Exceptions\PivotalNotFoundException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Exceptions\PivotalUserException.cs">
+      <Link>Exceptions\PivotalUserException.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Attachments\PivotalAttachment.cs">
+      <Link>Models\Attachments\PivotalAttachment.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Attachments\PivotalNewAttachment.cs">
+      <Link>Models\Attachments\PivotalNewAttachment.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Comments\PivotalComment.cs">
+      <Link>Models\Comments\PivotalComment.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Project\PivotalProject.cs">
+      <Link>Models\Project\PivotalProject.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Stories\PivotalLabel.cs">
+      <Link>Models\Stories\PivotalLabel.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Stories\PivotalNewStory.cs">
+      <Link>Models\Stories\PivotalNewStory.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Stories\PivotalStory.cs">
+      <Link>Models\Stories\PivotalStory.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Tasks\PivotalNewTask.cs">
+      <Link>Models\Tasks\PivotalNewTask.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Tasks\PivotalTask.cs">
+      <Link>Models\Tasks\PivotalTask.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\User\PivotalUser.cs">
+      <Link>Models\User\PivotalUser.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\User\PivotalUserProject.cs">
+      <Link>Models\User\PivotalUserProject.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Services\HttpService.cs">
+      <Link>Services\HttpService.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Services\IHttpService.cs">
+      <Link>Services\IHttpService.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Services\JsonService.cs">
+      <Link>Services\JsonService.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Services\PivotalTracker.cs">
+      <Link>Services\PivotalTracker.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Utils\StringUtil.cs">
+      <Link>Utils\StringUtil.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

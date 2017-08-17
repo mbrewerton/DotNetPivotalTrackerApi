@@ -36,6 +36,9 @@
   </metadata>
 
     <files>
-      <file src="bin\Release\DotNetPivotalTrackerApi.dll" target="lib\DotNetPivotalTrackerApi.dll" />
+      <file src="bin\Release\DotNetPivotalTrackerApi.dll" target="lib\\DotNetPivotalTrackerApi.dll" />
+      
+      <!-- UAP -->
+      <file src="bin\Release\DotNetPivotalTrackerApi.dll" target="lib\uap10\DotNetPivotalTrackerApi.dll" />
     </files>
 </package>

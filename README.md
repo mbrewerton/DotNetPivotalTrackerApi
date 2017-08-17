@@ -1,6 +1,14 @@
-# DotNet Pivotal Tracker Api
+# .NET Wrapper for Pivotal Tracker Api
+
+Master Build Status: [![Build status](https://ci.appveyor.com/api/projects/status/j22e5m0yp3j29gmj/branch/master?svg=true)](https://github.com/mbrewerton/DotNetPivotalTrackerApi/tree/master)
+
+Development Build Status: [![Build status](https://ci.appveyor.com/api/projects/status/j22e5m0yp3j29gmj/branch/develop?svg=true)](https://github.com/mbrewerton/DotNetPivotalTrackerApi/tree/develop)
+
+
 ## About
-The DotNet Pivotal Tracker API is a C# wrapper to enable easy use of the Pivotal Tracker REST API in C#.
+The .NET Wrapper for Pivotal Tracker API is a .NET wrapper to enable easy use of the Pivotal Tracker REST API. It is current compatible with .NET4.5 and UAP10.0 applications.
+
+You can access the nuget package here: [Nuget Package](https://www.nuget.org/packages/Mbrewerton.DotNetPivotalTrackerApi).
 
 ## Contribution
 Anyone can contribute to the project via Pull Requests (PRs), but all PRs must be created against the `develop` branch. Contribution branches would preferably be created using gitflow - Create a branch called `feature/your_feature_to_add` from `develop` and then create a PR for `feature/your_feature_to_add` -> `develop`. If you are picking off an item in the TODO list, please include the item name in the description section of your PR.
@@ -55,6 +63,14 @@ PivotalTask storyTask = tracker.CreateNewStoryTask(projectId, story.Id, "This is
 
 ## Release Notes
 
+### 1.0.4-Alpha
+- Fixed previously broken build
+- Included support for UAP applications in addition to regular .NET 4.5 applications
+  - This uses the same namespace (`DotNetPivotalTrackerApi`) unlike the previous "Portable" build
+
+### ~~1.0.3-Alpha1~~
+~~- Package is now compatible with UWP/UAP10 projects by referencing the `DotNetPivotalTrackerApi.Portable` namespace~~
+
 ### 1.0.1-Alpha2
 - Added the ability to persist a Project Id to a PivotalTracker instance by passing as a parameter
 - Fixed HttpClient conflicts when using multiple PivotalTracker instances at once
@@ -78,13 +94,12 @@ This TODO list is not in any prioritised order, it is basically a dumping ground
 - Fix HttpClient not allowing multiple requests on the static method
 - Make methods truly Async with syncronous counterparts to provide async flexiblity
 - Create a custom HttpHandler for the HttpClient to provide Unit Testability
-- Provide the ability to persist `projectId` to prevent the need to pass it to every object or method
 - Provide the ability to chain methods using fluent syntax
 - Provide GET/POST/PUT/DELETE functionality for Epics
-- Cover all PT endpoints... eventually...
+- Eventually cover all PT endpoints... Give a dev a chance!
 
 # Boring Stuff
-##MIT License
+## MIT License
 
 Copyright (c) 2016
 

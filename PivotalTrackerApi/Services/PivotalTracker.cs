@@ -3,13 +3,11 @@ using Newtonsoft.Json.Serialization;
 using DotNetPivotalTrackerApi.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using DotNetPivotalTrackerApi.Enums;
 using DotNetPivotalTrackerApi.Models.Stories;
 using System.IO;
+using System.Runtime.CompilerServices;
 using DotNetPivotalTrackerApi.Models.Attachments;
 using DotNetPivotalTrackerApi.Models.Comments;
 using DotNetPivotalTrackerApi.Models.Project;
@@ -24,7 +22,7 @@ namespace DotNetPivotalTrackerApi.Services
     {
 
         private JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-        private readonly HttpService HttpService;
+        internal IHttpService HttpService;
         private readonly string _apiToken;
         private int? _projectId;
         public string ApiToken => _apiToken;
@@ -88,7 +86,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <returns>Returns a PivotalProject by Id.</returns>
         public PivotalProject GetCurrentProject(int? projectId = null)
         {
-
+            if (projectId == null && _projectId == null) throw new PivotalException("You must either pass a projectId to this method or use a persisted ProjectId when instantiating the PivotalTracker class.");
             var response = HttpService.GetAsync(StringUtil.PivotalProjectsUrl(projectId ?? _projectId)).Result;
             return HandleResponse<PivotalProject>(response);
         }
@@ -569,7 +567,7 @@ namespace DotNetPivotalTrackerApi.Services
             var text = response.Content.ReadAsStringAsync().Result;
 
             // Throws new exception with the body of our response result.
-            throw new PivotalHttpException($"Result was unsuccessful. {text}");
+            throw new PivotalHttpException($"Result was unsuccessful. {text}", new Exception(text));
         }
         #endregion
     }

@@ -1,27 +1,18 @@
-﻿using System.Reflection;
-using System.Runtime.InteropServices;
+﻿using System.Resources;
+using System.Reflection;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DotNetPivotalTrackerApi")]
+[assembly: AssemblyTitle("DotNetPivotalTrackerApi.Portable")]
 [assembly: AssemblyDescription("A C# .NET UAP wrapper for the Pivotal Tracker API.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Matt Brewerton")]
-[assembly: AssemblyProduct("DotNetPivotalTrackerApi")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("DotNetPivotalTrackerApi.Portable")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("DotNetPivotalTrackerApi"),
-           System.Runtime.CompilerServices.InternalsVisibleTo("PivotalTrackerTests")]
-
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
-
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b80711b6-ac08-41b9-a16f-72fd92f4c12c")]
+[assembly: NeutralResourcesLanguage("en")]
 
 // Version information for an assembly consists of the following four values:
 //

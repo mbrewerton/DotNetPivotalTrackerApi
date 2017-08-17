@@ -1,11 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetPivotalTrackerApi.Services
 {
@@ -15,8 +10,6 @@ namespace DotNetPivotalTrackerApi.Services
 
         static JsonService()
         {
-            //_jsonSerializerSettings.ContractResolver = new CamelCaseExceptDictionaryNamesContractResolver();
-            //_jsonSerializerSettings.Converters.Add(new StringEnumConverter());
             _jsonSerializerSettings.ContractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new SnakeCaseNamingStrategy()
