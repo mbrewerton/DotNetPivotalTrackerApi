@@ -8,6 +8,7 @@ using DotNetPivotalTrackerApi.Enums;
 using DotNetPivotalTrackerApi.Models.Stories;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using DotNetPivotalTrackerApi.Models.Attachments;
 using DotNetPivotalTrackerApi.Models.Comments;
 using DotNetPivotalTrackerApi.Models.Project;
@@ -21,14 +22,24 @@ namespace DotNetPivotalTrackerApi.Services
     {
 
         private JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-        internal IHttpService HttpService;
-        private readonly string _apiToken;
+        internal IHttpService HttpService = new HttpService();
+        private string _apiToken;
         private int? _projectId;
         public string ApiToken => _apiToken;
         public int? ProjectId => _projectId;
 
         /// <summary>
-        /// Instantiates a new PivotalTracker instance using the specified apiToken (visit <see cref="https://www.pivotaltracker.com/profile"/> to generate a token).
+        /// Instantiates an empty PivotalTracker instance. Use this if you want to authenticate using credentials with the <see cref="Authorize"/> method.\n
+        /// If you already know your API Token, you can use the constructor with the apiToken argument.
+        /// </summary>
+        public PivotalTracker()
+        {
+            
+        }
+
+        /// <summary>
+        /// Instantiates a new PivotalTracker instance using the specified apiToken (visit <see cref="https://www.pivotaltracker.com/profile"/> to generate a token).\n
+        /// If you want to authorize with username/password credentials, create an instance with the blank constructor and call the <see cref="Authorize"/> method.
         /// </summary>
         /// <param name="apiToken">Your Api Token.</param>
         /// <param name="projectId">(optional) Persists the projectId that you wish to use for the tracker instance. You can override this with <see cref="SetProjectId(int?)"/></param>
@@ -36,9 +47,21 @@ namespace DotNetPivotalTrackerApi.Services
         {
             _apiToken = apiToken;
             _projectId = projectId;
-            HttpService = new HttpService();
             // Sets up up our HttpService to make sure it is ready to use
             HttpService.SetupHttpClient(_apiToken);
+        }
+
+        /// <summary>
+        /// Used to authorize the <see cref="PivotalTracker"/> instance with username/password credentials.
+        /// </summary>
+        /// <param name="username">Your Pivotal Tracker username.</param>
+        /// <param name="password">Your Pivotal Tracker password.</param>
+        public void Authorize(string username, string password)
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+                throw new PivotalMethodNotValidException("Please make sure you are passing a username and password.");
+            var authorisedUser = HttpService.Authorize(username, password).Result;
+            _apiToken = authorisedUser.ApiToken;
         }
 
         /// <summary>
@@ -58,10 +81,11 @@ namespace DotNetPivotalTrackerApi.Services
         /// <returns>Returns a PivotalUser.</returns>
         public PivotalUser GetUser()
         {
+            var resp = HttpService.GetAsync("me").Result;
             // Gets current user data for the user of the current Api token
-            var response = HttpService.GetAsync("me").Result;
+            //var response = HttpService.GetAsync("me").Result;
 
-            return HandleResponse<PivotalUser>(response);
+            return HandleResponse<PivotalUser>(resp);
         }
         #endregion
 

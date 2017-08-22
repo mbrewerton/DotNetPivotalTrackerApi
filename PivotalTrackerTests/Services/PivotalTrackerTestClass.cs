@@ -27,6 +27,41 @@ namespace PivotalTrackerTests.Services
         {
             FakeHttpService = new Mock<FakeHttpService>();
         }
+
+        [Fact]
+        public void Test_PivotalTracker_Authentication_With_Credentials_Returns_User()
+        {
+            var tracker = GetTracker();
+            var returnUser = new PivotalUser
+            {
+                Username = "TestUser",
+                ApiToken = "MyToken"
+            };
+            FakeHttpService.Setup(x => x.Authorize(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(returnUser));
+            tracker.Authorize("testUser", "testPassword");
+            var response = CreateResponse(returnUser);
+            FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
+
+            var user = tracker.GetUser();
+
+            Assert.Equal(user.ApiToken, returnUser.ApiToken);
+        }
+
+        [Fact]
+        public void Test_PivotalTracker_Authentication_Without_Credentials_Throws()
+        {
+            var tracker = GetTracker();
+            Assert.Throws<PivotalMethodNotValidException>(() => tracker.Authorize("", ""));
+        }
+
+        [Fact]
+        public void Test_Credential_Authorisation_Throws_On_Forbidden()
+        {
+            //var tracker = GetTracker("testuser", "testPassword");
+            //var returnResponse = new HttpResponseMessage(HttpStatusCode.Forbidden);
+            //FakeHttpService.Setup(x => x.)
+        }
+
         [Fact]
         public void Test_Get_User_Returns_User()
         {
