@@ -24,19 +24,30 @@ namespace PivotalTrackerTests.Services
     public class BasePivotalTrackerTestClass
     {
         private PivotalTracker _tracker;
-        public Mock<FakeHttpService> FakeHttpService;
+        public Mock<FakeHttpService> FakeHttpService = new Mock<FakeHttpService>();
 
         public PivotalTracker GetTracker(string apiToken = "test", int? projectId = null)
         {
             // Don't use object initialiser here! We want to initialise the PivotalTracker instance and then overwrite the HttpService with our Mock
-            _tracker = new PivotalTracker(apiToken, projectId);
-            _tracker.HttpService = FakeHttpService.Object;
+            _tracker = new PivotalTracker(apiToken, projectId)
+            {
+                HttpService = FakeHttpService.Object
+            };
             return _tracker;
 
         }
 
+        public PivotalTracker GetTracker(string username, string password)
+        {
+            // Don't use object initialiser here! We want to initialise the PivotalTracker instance and then overwrite the HttpService with our Mock
+            _tracker = new PivotalTracker { HttpService = FakeHttpService.Object };
+            _tracker.Authorize(username, password);
+            return _tracker;
+        }
+
         public HttpResponseMessage CreateResponse<T>(T model)
         {
+            //return new Task<HttpResponseMessage>(() => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(JsonService.SerializeObjectToJson(model))});
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent(JsonService.SerializeObjectToJson(model))

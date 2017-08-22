@@ -16,13 +16,8 @@ namespace DotNetPivotalTrackerApi.Services
         private string _apiToken;
         public string ApiToken => _apiToken;
 
-        private readonly string _baseUrl = "https://www.pivotaltracker.com/services/v5/";
+        private readonly string _baseUrl = "http://fakehttpservice.fake/";
         private readonly HttpClient HttpClient = new HttpClient();
-
-        private StringContent CreateStringContent(string content)
-        {
-            return new StringContent(content, Encoding.UTF8, "application/json");
-        }
 
         public virtual void SetupHttpClient(string apiToken)
         {
@@ -31,7 +26,14 @@ namespace DotNetPivotalTrackerApi.Services
             HttpClient.DefaultRequestHeaders.Add("X-TrackerToken", _apiToken);
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-        
+
+        public void Authorize(string username, string password)
+        {
+            HttpClient.BaseAddress = new Uri(_baseUrl);
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
         /// <summary>
         /// Calls a GET request on the specified path.
         /// </summary>
@@ -39,7 +41,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <returns>HttpResponseMessage</returns>
         public virtual async Task<HttpResponseMessage> GetAsync(string path)
         {
-            return new HttpResponseMessage(HttpStatusCode.OK);        
+            return new HttpResponseMessage(HttpStatusCode.OK);      
         }
 
         /// <summary>

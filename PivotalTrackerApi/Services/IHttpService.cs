@@ -6,6 +6,7 @@ namespace DotNetPivotalTrackerApi.Services
     public interface IHttpService
     {
         void SetupHttpClient(string apiToken);
+        void Authorize(string username, string password);
 
         /// <summary>
         /// Calls a GET request on the specified path.

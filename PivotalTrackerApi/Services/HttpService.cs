@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using DotNetPivotalTrackerApi.Exceptions;
+using DotNetPivotalTrackerApi.Utils;
 
 namespace DotNetPivotalTrackerApi.Services
 { 
@@ -26,6 +27,18 @@ namespace DotNetPivotalTrackerApi.Services
             HttpClient.BaseAddress = new Uri(_baseUrl);
             HttpClient.DefaultRequestHeaders.Add("X-TrackerToken", _apiToken);
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        public void Authorize(string username, string password)
+        {
+            var authoriseRequest = new HttpRequestMessage
+            {
+                RequestUri = new Uri(_baseUrl + StringUtil.PivotalCurrentUser())
+            };
+            authoriseRequest.Headers.Authorization = new AuthenticationHeaderValue("basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
+            authoriseRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var response = HttpClient.SendAsync(authoriseRequest).Result;
         }
         
         /// <summary>
