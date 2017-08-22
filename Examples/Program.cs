@@ -19,11 +19,23 @@ namespace Examples
         {
             _mytracker = new PivotalTracker(_apiKey);
 
-            GetUserInfo();
-            GetProjects();
-            CreateNewStory();
-            PersistProjectIdToTrackerInstance();
+            //GetUserInfo();
+            //GetProjects();
+            //CreateNewStory();
+            //PersistProjectIdToTrackerInstance();
+            Authorisation();
+
             Console.ReadKey();
+        }
+
+        private static void Authorisation()
+        {
+            // We create a new instance of the PivotalTracker class using the default constructor
+            var tracker = new PivotalTracker();
+            // Authorise the tracker instance with username/password
+            tracker.Authorize("ENTER_YOUR_USERNAME", "ENTER_YOUR_PASSWORD");
+            // This user should be populated
+            var user = tracker.GetUser();
         }
 
         private static void GetUserInfo()
@@ -40,8 +52,8 @@ namespace Examples
             List<PivotalProject> projects = _mytracker.GetProjects();
 
             Console.WriteLine($"{user.Name} is assigned to the following projects:");
-            
-            foreach(var project in projects)
+
+            foreach (var project in projects)
             {
                 Console.WriteLine($@"   - {project.Name} {(project.Public == false ? "(PRIVATE)" : "")}");
             }
