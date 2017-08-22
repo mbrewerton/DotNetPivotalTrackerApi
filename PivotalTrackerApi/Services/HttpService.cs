@@ -30,6 +30,12 @@ namespace DotNetPivotalTrackerApi.Services
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+        /// <summary>
+        /// Authorizes the <see cref="HttpClient"/> to use basic credential auth and retrieves the API Token from the user for setup.
+        /// </summary>
+        /// <param name="username">Your username to authenticate with.</param>
+        /// <param name="password">Your password to authenticate with.</param>
+        /// <returns></returns>
         public async Task<PivotalUser> Authorize(string username, string password)
         {
             using (var authClient = new HttpClient())

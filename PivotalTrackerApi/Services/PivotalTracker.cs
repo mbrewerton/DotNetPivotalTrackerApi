@@ -28,13 +28,17 @@ namespace DotNetPivotalTrackerApi.Services
         public string ApiToken => _apiToken;
         public int? ProjectId => _projectId;
 
+        /// <summary>
+        /// Instantiates an empty PivotalTracker instance. Use this if you want to authenticate using credentials with the <see cref="Authorize"/> method.\n
+        /// If you already know your API Token, you can use the constructor with the apiToken argument.
+        /// </summary>
         public PivotalTracker()
         {
             
         }
 
         /// <summary>
-        /// Instantiates a new PivotalTracker instance using the specified apiToken (visit <see cref="https://www.pivotaltracker.com/profile"/> to generate a token).
+        /// Instantiates a new PivotalTracker instance using the specified apiToken (visit <see cref="https://www.pivotaltracker.com/profile"/> to generate a token).\n
         /// If you want to authorize with username/password credentials, create an instance with the blank constructor and call the <see cref="Authorize"/> method.
         /// </summary>
         /// <param name="apiToken">Your Api Token.</param>
