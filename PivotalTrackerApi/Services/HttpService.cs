@@ -4,6 +4,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using DotNetPivotalTrackerApi.Exceptions;
+using DotNetPivotalTrackerApi.Models.User;
+using DotNetPivotalTrackerApi.Utils;
 
 namespace DotNetPivotalTrackerApi.Services
 { 
@@ -26,6 +28,31 @@ namespace DotNetPivotalTrackerApi.Services
             HttpClient.BaseAddress = new Uri(_baseUrl);
             HttpClient.DefaultRequestHeaders.Add("X-TrackerToken", _apiToken);
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        /// <summary>
+        /// Authorizes the <see cref="HttpClient"/> to use basic credential auth and retrieves the API Token from the user for setup.
+        /// </summary>
+        /// <param name="username">Your username to authenticate with.</param>
+        /// <param name="password">Your password to authenticate with.</param>
+        /// <returns></returns>
+        public async Task<PivotalUser> Authorize(string username, string password)
+        {
+            using (var authClient = new HttpClient())
+            {
+                var authoriseRequest = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(_baseUrl + StringUtil.PivotalCurrentUser())
+                };
+                authoriseRequest.Headers.Authorization = new AuthenticationHeaderValue("basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
+                authoriseRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+   
+                var response = await authClient.SendAsync(authoriseRequest);
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var user = JsonService.SerializeJsonToObject<PivotalUser>(responseContent);
+                SetupHttpClient(user.ApiToken);
+                return user;
+            }
         }
         
         /// <summary>
