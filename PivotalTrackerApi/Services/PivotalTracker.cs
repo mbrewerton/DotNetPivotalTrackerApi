@@ -23,7 +23,7 @@ namespace DotNetPivotalTrackerApi.Services
 
         private JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
         internal IHttpService HttpService = new HttpService();
-        private readonly string _apiToken;
+        private string _apiToken;
         private int? _projectId;
         public string ApiToken => _apiToken;
         public int? ProjectId => _projectId;
@@ -56,7 +56,8 @@ namespace DotNetPivotalTrackerApi.Services
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 throw new PivotalMethodNotValidException("Please make sure you are passing a username and password.");
-            HttpService.Authorize(username, password);
+            var authorisedUser = HttpService.Authorize(username, password).Result;
+            _apiToken = authorisedUser.ApiToken;
         }
 
         /// <summary>

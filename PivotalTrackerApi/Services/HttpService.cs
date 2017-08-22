@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using DotNetPivotalTrackerApi.Exceptions;
+using DotNetPivotalTrackerApi.Models.User;
 using DotNetPivotalTrackerApi.Utils;
 
 namespace DotNetPivotalTrackerApi.Services
@@ -29,16 +30,23 @@ namespace DotNetPivotalTrackerApi.Services
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public void Authorize(string username, string password)
+        public async Task<PivotalUser> Authorize(string username, string password)
         {
-            var authoriseRequest = new HttpRequestMessage
+            using (var authClient = new HttpClient())
             {
-                RequestUri = new Uri(_baseUrl + StringUtil.PivotalCurrentUser())
-            };
-            authoriseRequest.Headers.Authorization = new AuthenticationHeaderValue("basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
-            authoriseRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var response = HttpClient.SendAsync(authoriseRequest).Result;
+                var authoriseRequest = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(_baseUrl + StringUtil.PivotalCurrentUser())
+                };
+                authoriseRequest.Headers.Authorization = new AuthenticationHeaderValue("basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
+                authoriseRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+   
+                var response = await authClient.SendAsync(authoriseRequest);
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var user = JsonService.SerializeJsonToObject<PivotalUser>(responseContent);
+                SetupHttpClient(user.ApiToken);
+                return user;
+            }
         }
         
         /// <summary>

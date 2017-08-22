@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using DotNetPivotalTrackerApi.Exceptions;
+using DotNetPivotalTrackerApi.Models.User;
 
 namespace DotNetPivotalTrackerApi.Services
 { 
@@ -27,11 +28,13 @@ namespace DotNetPivotalTrackerApi.Services
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public void Authorize(string username, string password)
+        public Task<PivotalUser> Authorize(string username, string password)
         {
             HttpClient.BaseAddress = new Uri(_baseUrl);
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            return null;
         }
 
         /// <summary>
