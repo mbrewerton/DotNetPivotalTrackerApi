@@ -37,11 +37,10 @@ namespace PivotalTrackerTests.Services
 
         }
 
-        public PivotalTracker GetTracker(string username, string password)
+        public PivotalTracker GetTracker()
         {
             // Don't use object initialiser here! We want to initialise the PivotalTracker instance and then overwrite the HttpService with our Mock
             _tracker = new PivotalTracker { HttpService = FakeHttpService.Object };
-            _tracker.Authorize(username, password);
             return _tracker;
         }
 

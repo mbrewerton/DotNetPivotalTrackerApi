@@ -31,12 +31,14 @@ namespace PivotalTrackerTests.Services
         [Fact]
         public void Test_PivotalTracker_Authentication_With_Credentials_Returns_User()
         {
-            var tracker = GetTracker("testUser", "testPassword");
+            var tracker = GetTracker();
             var returnUser = new PivotalUser
             {
                 Username = "TestUser",
                 ApiToken = "MyToken"
             };
+            FakeHttpService.Setup(x => x.Authorize(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(returnUser));
+            tracker.Authorize("testUser", "testPassword");
             var response = CreateResponse(returnUser);
             FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 

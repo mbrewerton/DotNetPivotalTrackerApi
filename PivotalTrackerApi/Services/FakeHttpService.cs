@@ -28,13 +28,13 @@ namespace DotNetPivotalTrackerApi.Services
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public Task<PivotalUser> Authorize(string username, string password)
+        public virtual async Task<PivotalUser> Authorize(string username, string password)
         {
             HttpClient.BaseAddress = new Uri(_baseUrl);
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            return null;
+            return new PivotalUser();
         }
 
         /// <summary>
