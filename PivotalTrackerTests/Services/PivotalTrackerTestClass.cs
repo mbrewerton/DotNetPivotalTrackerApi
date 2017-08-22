@@ -48,6 +48,13 @@ namespace PivotalTrackerTests.Services
         }
 
         [Fact]
+        public void Test_PivotalTracker_Authentication_Without_Credentials_Throws()
+        {
+            var tracker = GetTracker();
+            Assert.Throws<PivotalMethodNotValidException>(() => tracker.Authorize("", ""));
+        }
+
+        [Fact]
         public void Test_Credential_Authorisation_Throws_On_Forbidden()
         {
             //var tracker = GetTracker("testuser", "testPassword");
