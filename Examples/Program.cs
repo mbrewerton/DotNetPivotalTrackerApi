@@ -32,10 +32,9 @@ namespace Examples
         {
             // We create a new instance of the PivotalTracker class using the default constructor
             var tracker = new PivotalTracker();
-            // Authorise the tracker instance with username/password
-            tracker.Authorize("ENTER_YOUR_USERNAME", "ENTER_YOUR_PASSWORD");
-            // This user should be populated
-            var user = tracker.GetUser();
+            // Authorise the tracker instance with username/password. Returns a PivotalUser if successful. Throws an exception if not.
+            var authUser = tracker.AuthorizeAsync("your_username", "your_password").Result;
+            
         }
 
         private static void GetUserInfo()

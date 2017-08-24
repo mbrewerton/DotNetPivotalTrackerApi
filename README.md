@@ -33,8 +33,11 @@ In order to authenticate using credentials, you need to instantiate your tracker
 ``` C#
 // Note the use of the default constructor. We don't want to pass a token here!
 PivotalTracker tracker = new PivotalTracker();
-// If this call succeeds, your `tracker` instance is now authenticated.
-tracker.Authorize("myusername", "mypassword");
+// If this call succeeds, your `tracker` instance is now authenticated. Note that this method is async
+await tracker.AuthorizeAsync("myusername", "mypassword");
+
+// If you want to use AuthorizeAsync in a non-async method, you can use .Result. Your authenticated user will be returned if successful.
+PivotalUser authUser = tracker.AuthorizeAsync("myusername", "mypassword").Result;
 ```
 tl;dr on how the new authentication mode works: It authenticates with Pivotal Tracker using the credentials entered, then if successful it will grab the API Token for the user and use that for subsequent requests. The client using the credentials is disposed as it's not needed.
 
@@ -79,7 +82,7 @@ PivotalTask storyTask = tracker.CreateNewStoryTask(projectId, story.Id, "This is
 
 ## Release Notes
 
-### 1.0.5-Alpha
+### 1.0.6-Alpha
 - Added authorisation for username/password authentication
   - see the [Authentication Section](https://www.nuget.org/packages/Mbrewerton.DotNetPivotalTrackerApi#types-of-authentication)
 

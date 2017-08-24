@@ -7,7 +7,6 @@ namespace DotNetPivotalTrackerApi.Services
     public interface IHttpService
     {
         void SetupHttpClient(string apiToken);
-        Task<PivotalUser> Authorize(string username, string password);
 
         /// <summary>
         /// Calls a GET request on the specified path.
@@ -45,5 +44,13 @@ namespace DotNetPivotalTrackerApi.Services
         Task<HttpResponseMessage> PostContentAsync<T>(string path, T data, bool serialiseToJson = false) where T : HttpContent;
 
         Task<HttpResponseMessage> DeleteAsync(string path);
+
+        /// <summary>
+        /// Authorizes the <see cref="HttpService.HttpClient"/> to use basic credential auth and retrieves the API Token from the user for setup.
+        /// </summary>
+        /// <param name="username">Your username to authenticate with.</param>
+        /// <param name="password">Your password to authenticate with.</param>
+        /// <returns></returns>
+        Task<HttpResponseMessage> AuthorizeAsync(string username, string password);
     }
 }

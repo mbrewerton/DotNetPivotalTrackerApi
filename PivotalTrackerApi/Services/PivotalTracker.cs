@@ -56,12 +56,19 @@ namespace DotNetPivotalTrackerApi.Services
         /// </summary>
         /// <param name="username">Your Pivotal Tracker username.</param>
         /// <param name="password">Your Pivotal Tracker password.</param>
-        public void Authorize(string username, string password)
+        public async Task<PivotalUser> AuthorizeAsync(string username, string password)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 throw new PivotalMethodNotValidException("Please make sure you are passing a username and password.");
-            var authorisedUser = HttpService.Authorize(username, password).Result;
-            _apiToken = authorisedUser.ApiToken;
+            var authorisationResponse = await HttpService.AuthorizeAsync(username, password);
+            var authUser = HandleResponse<PivotalUser>(authorisationResponse);
+
+            if (authUser != null)
+            {
+                _apiToken = authUser.ApiToken;
+            }
+
+            return authUser;
         }
 
         /// <summary>

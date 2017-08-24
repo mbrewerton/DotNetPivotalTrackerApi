@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Mbrewerton.DotNetPivotalTrackerApi</id>
-    <version>1.0.5-alpha</version>
+    <version>1.0.6-alpha</version>
     <authors>Matt Brewerton</authors>
     <owners>mbrewerton</owners>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
@@ -29,6 +29,6 @@
       <file src="PivotalTrackerApi\bin\Release\DotNetPivotalTrackerApi.dll" target="lib\net45\DotNetPivotalTrackerApi.dll" />
       
       <!-- UAP -->
-      <file src="DotNetPivotalTrackerApi.Portable\bin\Release\DotNetPivotalTrackerApi.Portable.dll" target="lib\uap10.0\DotNetPivotalTrackerApi.dll" />
+      <file src="DotNetPivotalTrackerApi.Portable\bin\Release\DotNetPivotalTrackerApi.Portable.dll" target="lib\uap10.0\DotNetPivotalTrackerApi.Portable.dll" />
     </files>
 </package>

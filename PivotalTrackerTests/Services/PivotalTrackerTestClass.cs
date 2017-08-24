@@ -37,9 +37,9 @@ namespace PivotalTrackerTests.Services
                 Username = "TestUser",
                 ApiToken = "MyToken"
             };
-            FakeHttpService.Setup(x => x.Authorize(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(returnUser));
-            tracker.Authorize("testUser", "testPassword");
             var response = CreateResponse(returnUser);
+            FakeHttpService.Setup(x => x.AuthorizeAsync(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(response));
+            tracker.AuthorizeAsync("testUser", "testPassword");
             FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
             var user = tracker.GetUser();
@@ -51,7 +51,7 @@ namespace PivotalTrackerTests.Services
         public void Test_PivotalTracker_Authentication_Without_Credentials_Throws()
         {
             var tracker = GetTracker();
-            Assert.Throws<PivotalMethodNotValidException>(() => tracker.Authorize("", ""));
+            Assert.ThrowsAsync<PivotalMethodNotValidException>(() => tracker.AuthorizeAsync("", ""));
         }
 
         [Fact]

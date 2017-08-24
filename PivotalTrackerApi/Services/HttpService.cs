@@ -36,7 +36,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="username">Your username to authenticate with.</param>
         /// <param name="password">Your password to authenticate with.</param>
         /// <returns></returns>
-        public async Task<PivotalUser> Authorize(string username, string password)
+        public async Task<HttpResponseMessage> AuthorizeAsync(string username, string password)
         {
             using (var authClient = new HttpClient())
             {
@@ -47,11 +47,7 @@ namespace DotNetPivotalTrackerApi.Services
                 authoriseRequest.Headers.Authorization = new AuthenticationHeaderValue("basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
                 authoriseRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
    
-                var response = await authClient.SendAsync(authoriseRequest);
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var user = JsonService.SerializeJsonToObject<PivotalUser>(responseContent);
-                SetupHttpClient(user.ApiToken);
-                return user;
+                return authClient.SendAsync(authoriseRequest).Result;
             }
         }
         
