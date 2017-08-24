@@ -22,6 +22,25 @@ PivotalTracker businessTracker = new PivotalTracker(BusinessApiKey);
 
 ## Examples
 
+### Types of Authentication
+You can authenticate in two ways: API Token or user credentials. Here's an example using an API token:
+``` C#
+// This tracker is already authenticated and can start calling the REST API immediately
+PivotalTracker tracker = new PivotalTracker("MyApiToken");
+```
+
+In order to authenticate using credentials, you need to instantiate your tracker instance slightly differently:
+``` C#
+// Note the use of the default constructor. We don't want to pass a token here!
+PivotalTracker tracker = new PivotalTracker();
+// If this call succeeds, your `tracker` instance is now authenticated. Note that this method is async
+await tracker.AuthorizeAsync("myusername", "mypassword");
+
+// If you want to use AuthorizeAsync in a non-async method, you can use .Result. Your authenticated user will be returned if successful.
+PivotalUser authUser = tracker.AuthorizeAsync("myusername", "mypassword").Result;
+```
+tl;dr on how the new authentication mode works: It authenticates with Pivotal Tracker using the credentials entered, then if successful it will grab the API Token for the user and use that for subsequent requests. The client using the credentials is disposed as it's not needed.
+
 ### Get User Info
 You can use the API to get your user data as well as specific REST actions:
 ``` C#
@@ -63,6 +82,10 @@ PivotalTask storyTask = tracker.CreateNewStoryTask(projectId, story.Id, "This is
 
 ## Release Notes
 
+### 1.0.6-Alpha
+- Added authorisation for username/password authentication
+  - see the [Authentication Section](https://www.nuget.org/packages/Mbrewerton.DotNetPivotalTrackerApi#types-of-authentication)
+
 ### 1.0.4-Alpha
 - Fixed previously broken build
 - Included support for UAP applications in addition to regular .NET 4.5 applications
@@ -91,10 +114,10 @@ PivotalTask storyTask = tracker.CreateNewStoryTask(projectId, story.Id, "This is
 ## TODO
 This TODO list is not in any prioritised order, it is basically a dumping ground for the next features that I am planning to work on. If you wish to contribute, check out the [Contribution](https://github.com/mbrewerton/DotNetPivotalTrackerApi#contribution) section.
 
-- Fix HttpClient not allowing multiple requests on the static method
 - Make methods truly Async with syncronous counterparts to provide async flexiblity
 - Create a custom HttpHandler for the HttpClient to provide Unit Testability
 - Provide the ability to chain methods using fluent syntax
+- Implement project statistics such as velocity
 - Provide GET/POST/PUT/DELETE functionality for Epics
 - Eventually cover all PT endpoints... Give a dev a chance!
 

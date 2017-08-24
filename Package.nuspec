@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Mbrewerton.DotNetPivotalTrackerApi</id>
-    <version>1.0.4-alpha</version>
+    <version>1.0.6-alpha</version>
     <authors>Matt Brewerton</authors>
     <owners>mbrewerton</owners>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
@@ -10,22 +10,14 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <releaseNotes>
       Features:
-      - Now compatible with UAP/UWP projects
-      - Sincere apologies for breaking the previous build on non-UAP projects 
+      - Added authorisation for username/password authentication
     </releaseNotes>
     <summary>
-      The package is in no way near feature-complete. There will be many
-      new versions and builds in the coming months as features get added and
-      will remain in Alpha until I am satisfied that a decent majority of
-      most-used features are included in the build.
+      The package is in no way near feature-complete. There will be many new versions and builds in the coming months as features get added and will remain in Alpha until I am satisfied that a decent majority of most-used features are included in the build.
 
-      If you have any requests on features that should be implented as a priority,
-      head over to the GitHub page (https://github.com/mbrewerton/DotNetPivotalTrackerApi)
-      and raise an Issue there.</summary>
+      If you have any requests on features that should be implented as a priority, head over to the GitHub page (https://github.com/mbrewerton/DotNetPivotalTrackerApi) and raise an Issue there.</summary>
     <description>
-      A C# .NET wrapper for the Pivotal Tracker API. - NOT FEATURE-COMPLETE. If you have any requests on features that should be implented as a priority,
-      head over to the GitHub page (https://github.com/mbrewerton/DotNetPivotalTrackerApi) and raise an Issue there. To contribute, please check the Contribution
-      section of the GitHub page. *There will be frequent Alpha releases.*
+      A C# .NET wrapper for the Pivotal Tracker API. - NOT FEATURE-COMPLETE. If you have any requests on features that should be implented as a priority, head over to the GitHub page (https://github.com/mbrewerton/DotNetPivotalTrackerApi) and raise an Issue there. To contribute, please check the Contribution section of the GitHub page. *There will be frequent Alpha releases.*
     </description>
     <tags>dot net .net pivotal tracker wrapper api</tags>
     <dependencies>
@@ -37,6 +29,6 @@
       <file src="PivotalTrackerApi\bin\Release\DotNetPivotalTrackerApi.dll" target="lib\net45\DotNetPivotalTrackerApi.dll" />
       
       <!-- UAP -->
-      <file src="DotNetPivotalTrackerApi.Portable\bin\Release\DotNetPivotalTrackerApi.Portable.dll" target="lib\uap10.0\DotNetPivotalTrackerApi.dll" />
+      <file src="DotNetPivotalTrackerApi.Portable\bin\Release\DotNetPivotalTrackerApi.Portable.dll" target="lib\uap10.0\DotNetPivotalTrackerApi.Portable.dll" />
     </files>
 </package>

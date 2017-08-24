@@ -84,6 +84,7 @@
     <Compile Include="Services\HttpServiceTests.cs" />
     <Compile Include="Services\JsonServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BasePivotalTrackerTestClass.cs" />
     <Compile Include="Services\PivotalTrackerTestClass.cs" />
   </ItemGroup>
   <ItemGroup>

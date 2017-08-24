@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -12,28 +13,59 @@ using Xunit;
 
 namespace PivotalTrackerTests.Services
 {
-    public class TestPivotalTracker : PivotalTracker
-    {
-        public TestPivotalTracker(IHttpService service, int? projectId = null) : base("Test String", projectId)
-        {
-            HttpService = service;
-        }
-    }
+    //public class TestPivotalTracker : PivotalTracker
+    //{
+    //    public TestPivotalTracker(IHttpService service, int? projectId = null) : base("Test String", projectId)
+    //    {
+    //        HttpService = service;
+    //    }
+    //}
 
-    public class PivotalTrackerTestClass
+    public class PivotalTrackerTestClass : BasePivotalTrackerTestClass
     {
-        private PivotalTracker _tracker;
-        private readonly Mock<FakeHttpService> _fakeHttpService;
-
         public PivotalTrackerTestClass()
         {
-            _fakeHttpService = new Mock<FakeHttpService>();
-            _tracker = new TestPivotalTracker(_fakeHttpService.Object);
+            FakeHttpService = new Mock<FakeHttpService>();
+        }
+
+        [Fact]
+        public void Test_PivotalTracker_Authentication_With_Credentials_Returns_User()
+        {
+            var tracker = GetTracker();
+            var returnUser = new PivotalUser
+            {
+                Username = "TestUser",
+                ApiToken = "MyToken"
+            };
+            var response = CreateResponse(returnUser);
+            FakeHttpService.Setup(x => x.AuthorizeAsync(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(response));
+            tracker.AuthorizeAsync("testUser", "testPassword");
+            FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
+
+            var user = tracker.GetUser();
+
+            Assert.Equal(user.ApiToken, returnUser.ApiToken);
+        }
+
+        [Fact]
+        public void Test_PivotalTracker_Authentication_Without_Credentials_Throws()
+        {
+            var tracker = GetTracker();
+            Assert.ThrowsAsync<PivotalMethodNotValidException>(() => tracker.AuthorizeAsync("", ""));
+        }
+
+        [Fact]
+        public void Test_Credential_Authorisation_Throws_On_Forbidden()
+        {
+            //var tracker = GetTracker("testuser", "testPassword");
+            //var returnResponse = new HttpResponseMessage(HttpStatusCode.Forbidden);
+            //FakeHttpService.Setup(x => x.)
         }
 
         [Fact]
         public void Test_Get_User_Returns_User()
         {
+            var tracker = GetTracker();
             var returnUser = new PivotalUser
             {
                 Email = "test@test.com",
@@ -43,9 +75,9 @@ namespace PivotalTrackerTests.Services
                 Username = "testusername"
             };
             var response = CreateResponse(returnUser);
-            _fakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
+            FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var user = _tracker.GetUser();
+            var user = tracker.GetUser();
 
             Assert.Equal(user.Id, returnUser.Id);
         }
@@ -53,6 +85,7 @@ namespace PivotalTrackerTests.Services
         [Fact]
         public void Test_Get_Projects_Returns_Projects()
         {
+            var tracker = GetTracker();
             var returnProjects = new List<PivotalProject>
             {
                 new PivotalProject { Id = 1, Name = "Project 1", Public = true },
@@ -60,38 +93,29 @@ namespace PivotalTrackerTests.Services
                 new PivotalProject { Id = 3, Name = "Project 3", Public = false }
             };
             var response = CreateResponse(returnProjects);
-            _fakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
+            FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var projects = _tracker.GetProjects();
+            var projects = tracker.GetProjects();
 
             Assert.Equal(3, projects.Count);
-        }
-
-        private HttpResponseMessage CreateResponse<T>(T model)
-        {
-            return new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new StringContent(JsonService.SerializeObjectToJson(model))
-            };
         }
 
         [Fact]
         private void Test_Get_Current_Project_With_No_ProjectId_Or_Persisted_Throws()
         {
-            _tracker = new TestPivotalTracker(_fakeHttpService.Object);
-
-            Assert.Throws<PivotalException>(() => _tracker.GetCurrentProject());
+            var tracker = GetTracker();
+            Assert.Throws<PivotalException>(() => tracker.GetCurrentProject());
         }
 
         [Fact]
         private void Test_Get_Current_Project_With_Persisted_Id()
         {
-            _tracker = new TestPivotalTracker(_fakeHttpService.Object, 1);
+            var tracker = GetTracker(projectId: 1);
             var returnProject = new PivotalProject { Id = 1, Name = "Project 1", Public = true };
             var response = CreateResponse(returnProject);
-            _fakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
+            FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var project = _tracker.GetCurrentProject();
+            var project = tracker.GetCurrentProject();
 
             Assert.NotNull(project);
         }
@@ -99,36 +123,40 @@ namespace PivotalTrackerTests.Services
         [Fact]
         private void Test_Get_Current_Project_Without_Persisted_Id()
         {
-            _tracker = new TestPivotalTracker(_fakeHttpService.Object);
+            var tracker = GetTracker();
             var returnProject = new PivotalProject { Id = 1, Name = "Project 1", Public = true };
             var response = CreateResponse(returnProject);
-            _fakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
+            FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var project = _tracker.GetCurrentProject(1);
+            var project = tracker.GetCurrentProject(1);
 
             Assert.NotNull(project);
         }
 
-        [Fact(Skip="Incomplete")]
+        [Fact]
         private void Test_Get_Project_Stories()
         {
-            _tracker = new TestPivotalTracker(_fakeHttpService.Object);
-            var returnProject = new PivotalStory { Id = 1, Name = "Project 1" };
-            var response = CreateResponse(returnProject);
-            _fakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
+            var tracker = GetTracker();
+            var returnStories = new List<PivotalStory>
+            {
+                new PivotalStory { Id = 1, Name = "Story 1" },
+                new PivotalStory { Id = 2, Name = "Story 2" },
+                new PivotalStory { Id = 3, Name = "Story 3" },
+            };
+            var response = CreateResponse(returnStories);
+            FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var project = _tracker.GetProjectStories(1);
+            var stories = tracker.GetProjectStories(1);
 
-            Assert.NotNull(project);
+            Assert.NotNull(stories);
         }
 
-        //[Fact]
-        //public void TestGetProjectStories()
-        //{
-        //    var projectStories = pt.GetProjectStories(_testProjectId);
-
-        //    Assert.IsNotNull(projectStories);
-        //}
+        [Fact]
+        private void Test_CheckProjectIds_Throws_If_Both_Null()
+        {
+            var tracker = GetTracker();
+            Assert.Throws<NullReferenceException>(() => tracker.CheckProjectIds(null));
+        }
 
         //[Fact]
         //public void TestCreateProjectStoryWithFullCtor()
