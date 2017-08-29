@@ -84,7 +84,7 @@ PivotalTask storyTask = tracker.CreateNewStoryTask(projectId, story.Id, "This is
 
 ### 1.0.6-Alpha
 - Added authorisation for username/password authentication
-  - see the [Authentication Section](https://www.nuget.org/packages/Mbrewerton.DotNetPivotalTrackerApi#types-of-authentication)
+  - see the [Authentication Section](https://github.com/mbrewerton/DotNetPivotalTrackerApi#types-of-authentication)
 
 ### 1.0.4-Alpha
 - Fixed previously broken build
