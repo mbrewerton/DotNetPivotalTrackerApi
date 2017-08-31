@@ -10,7 +10,8 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <releaseNotes>
       Features:
-      - Refactored PivotalTracker class to be async
+      - [BREAKING CHANGE] Refactored public PivotalTracker methods to be async
+      - [BREAKING CHANGE] Removed the "PivotalNew" models. All methods (Get and Create) now use the same model
       - Added authorisation for username/password authentication
     </releaseNotes>
     <summary>
