@@ -47,7 +47,7 @@ namespace DotNetPivotalTrackerApi.Services
                 authoriseRequest.Headers.Authorization = new AuthenticationHeaderValue("basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
                 authoriseRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
    
-                return authClient.SendAsync(authoriseRequest).Result;
+                return await authClient.SendAsync(authoriseRequest);
             }
         }
         

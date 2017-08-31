@@ -47,7 +47,7 @@ namespace DotNetPivotalTrackerApi.Services
         {
             _apiToken = apiToken;
             _projectId = projectId;
-            // Sets up up our HttpService to make sure it is ready to use
+            // Sets up up our await HttpService to make sure it is ready to use
             HttpService.SetupHttpClient(_apiToken);
         }
 
@@ -66,6 +66,7 @@ namespace DotNetPivotalTrackerApi.Services
             if (authUser != null)
             {
                 _apiToken = authUser.ApiToken;
+                HttpService.SetupHttpClient(_apiToken);
             }
 
             return authUser;
@@ -76,7 +77,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// if you do not pass a projectId to the method.
         /// </summary>
         /// <param name="projectId">Project id to persist for the PivotalTracker instance.</param>
-        public void SetProjectId(int? projectId)
+        public async void SetProjectId(int? projectId)
         {
             _projectId = projectId;
         }
@@ -86,11 +87,11 @@ namespace DotNetPivotalTrackerApi.Services
         /// Gets the user details for the current Api Token.
         /// </summary>
         /// <returns>Returns a PivotalUser.</returns>
-        public PivotalUser GetUser()
+        public async Task<PivotalUser> GetUser()
         {
-            var resp = HttpService.GetAsync("me").Result;
+            var resp = await HttpService.GetAsync("me");
             // Gets current user data for the user of the current Api token
-            //var response = HttpService.GetAsync("me").Result;
+            //var response = await HttpService.GetAsync("me");
 
             return HandleResponse<PivotalUser>(resp);
         }
@@ -101,9 +102,9 @@ namespace DotNetPivotalTrackerApi.Services
         /// Gets all projects as a List&lt;PivotalProject&gt; that the current user is assigned to.
         /// </summary>
         /// <returns>Returns List&lt;PivotalProject&gt; containing all projects user is assigned to.</returns>
-        public List<PivotalProject> GetProjects()
+        public  async Task<List<PivotalProject>> GetProjects()
         {
-            var response = HttpService.GetAsync("projects").Result;
+            var response =  await HttpService.GetAsync("projects");
 
             return HandleResponse<List<PivotalProject>>(response);
         }
@@ -114,10 +115,10 @@ namespace DotNetPivotalTrackerApi.Services
         /// </summary>
         /// <param name="projectId">(optional) Id of the project (default: null)</param>
         /// <returns>Returns a PivotalProject by Id.</returns>
-        public PivotalProject GetCurrentProject(int? projectId = null)
+        public async Task<PivotalProject> GetCurrentProjectAsync(int? projectId = null)
         {
             if (projectId == null && _projectId == null) throw new PivotalException("You must either pass a projectId to this method or use a persisted ProjectId when instantiating the PivotalTracker class.");
-            var response = HttpService.GetAsync(StringUtil.PivotalProjectsUrl(projectId ?? _projectId)).Result;
+            var response = await HttpService.GetAsync(StringUtil.PivotalProjectsUrl(projectId ?? _projectId));
             return HandleResponse<PivotalProject>(response);
         }
         #endregion
@@ -129,10 +130,10 @@ namespace DotNetPivotalTrackerApi.Services
         /// </summary>
         /// <param name="projectId">Id of the project to get stories for.</param>
         /// <returns>Returns projects as a List&lt;PivotalStory&gt;.</returns>
-        public List<PivotalStory> GetProjectStories(int? projectId = null)
+        public async Task<List<PivotalStory>> GetProjectStoriesAsync(int? projectId = null)
         {
             int properProjectId = GetProjectIdToUse(projectId);
-            var response = HttpService.GetAsync(StringUtil.PivotalStoriesUrl(properProjectId)).Result;
+            var response = await HttpService.GetAsync(StringUtil.PivotalStoriesUrl(properProjectId));
 
             return HandleResponse<List<PivotalStory>>(response);
         }
@@ -143,10 +144,10 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="projectId">Id of the project to get the story from.</param>
         /// <param name="storyId">Id of the story you want to return.</param>
         /// <returns></returns>
-        public PivotalStory GetStoryById(int? projectId, int storyId)
+        public async Task<PivotalStory> GetStoryByIdAsync(int? projectId, int storyId)
         {
             int properProjectId = GetProjectIdToUse(projectId);
-            var response = HttpService.GetAsync(StringUtil.PivotalStoriesUrl(properProjectId, storyId)).Result;
+            var response = await HttpService.GetAsync(StringUtil.PivotalStoriesUrl(properProjectId, storyId));
 
             return HandleResponse<PivotalStory>(response);
         }
@@ -157,10 +158,10 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="projectId">Id of the project to delete the story from.</param>
         /// <param name="storyId">Id of the story to delete.</param>
         /// <returns>Boolean</returns>
-        public bool DeleteStory(int? projectId, int storyId)
+        public async Task<bool> DeleteStoryAsync(int? projectId, int storyId)
         {
             int properProjectId = GetProjectIdToUse(projectId);
-            var response = HttpService.DeleteAsync(StringUtil.PivotalStoriesUrl(properProjectId, storyId)).Result;
+            var response = await HttpService.DeleteAsync(StringUtil.PivotalStoriesUrl(properProjectId, storyId));
             if (response.IsSuccessStatusCode)
             {
                 return true;
@@ -178,7 +179,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="labels">Any labels you wish to give to the story.</param>
         /// <param name="description">(optional) Description of the story. Use this for additional info.</param>
         /// <returns>Returns a completed PivotalStory</returns>
-        public PivotalStory CreateNewStory(int? projectId, string name, StoryType storyType, List<string> labels = null, string description = null)
+        public async Task<PivotalStory> CreateNewStoryAsync(int? projectId, string name, StoryType storyType, List<string> labels = null, string description = null)
         {
             int properProjectId = GetProjectIdToUse(projectId);
             var story = new PivotalNewStory
@@ -188,7 +189,7 @@ namespace DotNetPivotalTrackerApi.Services
                 Labels = labels ?? new List<string>(),
                 StoryType = storyType.ToString()
             };
-            var response = HttpService.PostAsync(StringUtil.PivotalStoriesUrl(properProjectId), story).Result;
+            var response = await HttpService.PostAsync(StringUtil.PivotalStoriesUrl(properProjectId), story);
 
             return HandleResponse<PivotalStory>(response);
         }
@@ -199,11 +200,11 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="projectId">Id of the project to create a story in.</param>
         /// <param name="pivotalStory">Pre-created story to create in the project.</param>
         /// <returns>Returns a completed PivotalStory.</returns>
-        public PivotalStory CreateNewStory(int? projectId, PivotalNewStory pivotalStory)
+        public async Task<PivotalStory> CreateNewStoryAsync(int? projectId, PivotalStory pivotalStory)
         {
             int properProjectId = GetProjectIdToUse(projectId);
             // Try and create a new PivotalStory
-            var response = HttpService.PostAsync(StringUtil.PivotalStoriesUrl(properProjectId), pivotalStory).Result;
+            var response = await HttpService.PostAsync(StringUtil.PivotalStoriesUrl(properProjectId), pivotalStory);
 
             return HandleResponse<PivotalStory>(response);
         }
@@ -217,10 +218,10 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="projectId">Id of the project.</param>
         /// <param name="storyId">Id of the story.</param>
         /// <returns>Returns a List&lt;PivotalTask&gt;.</returns>
-        public List<PivotalTask> GetTasksFromStory(int? projectId, int storyId)
+        public async Task<List<PivotalTask>> GetTasksFromStoryAsnc(int? projectId, int storyId)
         {
             int properProjectId = GetProjectIdToUse(projectId);
-            var response = HttpService.GetAsync(StringUtil.PivotalStoryTasksUrl(properProjectId, storyId)).Result;
+            var response = await HttpService.GetAsync(StringUtil.PivotalStoryTasksUrl(properProjectId, storyId));
 
             return HandleResponse<List<PivotalTask>>(response);
         }
@@ -232,10 +233,10 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="storyId">Id of the story.</param>
         /// <param name="pivotalTask">The predefined PivotalNewTask to create.</param>
         /// <returns>Returns a PivotalTask.</returns>
-        public PivotalTask CreateNewStoryTask(int? projectId, int storyId, PivotalNewTask pivotalTask)
+        public async Task<PivotalTask> CreateNewStoryTaskAsync(int? projectId, int storyId, PivotalNewTask pivotalTask)
         {
             int properProjectId = GetProjectIdToUse(projectId);
-            var response = HttpService.PostAsync(StringUtil.PivotalStoryTasksUrl(properProjectId, storyId), pivotalTask).Result;
+            var response = await HttpService.PostAsync(StringUtil.PivotalStoryTasksUrl(properProjectId, storyId), pivotalTask);
 
             return HandleResponse<PivotalTask>(response);
         }
@@ -249,7 +250,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="complete">(optional) Determines whether or not the task is marked as "complete". (default: false)</param>
         /// <param name="position">(optional) Sets the position of the task on the story. If null, the task will be placed at the end of the list. (default: null)</param>
         /// <returns>Returns a PivotalTask.</returns>
-        public PivotalTask CreateNewStoryTask(int? projectId, int storyId, string description, bool complete = false, int? position = null)
+        public async Task<PivotalTask> CreateNewStoryTaskAsync(int? projectId, int storyId, string description, bool complete = false, int? position = null)
         {
             int properProjectId = GetProjectIdToUse(projectId);
             var pivotalTask = new PivotalNewTask
@@ -258,7 +259,7 @@ namespace DotNetPivotalTrackerApi.Services
                 Complete = complete,
                 Position = position
             };
-            var response = HttpService.PostAsync(StringUtil.PivotalStoryTasksUrl(properProjectId, storyId), pivotalTask).Result;
+            var response = await HttpService.PostAsync(StringUtil.PivotalStoryTasksUrl(properProjectId, storyId), pivotalTask);
 
             return HandleResponse<PivotalTask>(response);
         }
@@ -270,10 +271,10 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="storyId">Id of the story.</param>
         /// <param name="pivotalTask">The task model to update,</param>
         /// <returns>Returns a PivotalTask.</returns>
-        public PivotalTask UpdateStoryTask(int? projectId, int storyId, PivotalTask pivotalTask)
+        public async Task<PivotalTask> UpdateStoryTaskAsync(int? projectId, int storyId, PivotalTask pivotalTask)
         {
             int properProjectId = GetProjectIdToUse(projectId);
-            var response = HttpService.PutAsync(StringUtil.PivotalStoryTasksUrl(properProjectId, storyId, pivotalTask.Id), pivotalTask).Result;
+            var response = await HttpService.PutAsync(StringUtil.PivotalStoryTasksUrl(properProjectId, storyId, pivotalTask.Id), pivotalTask);
 
             return HandleResponse<PivotalTask>(response);
         }
@@ -285,10 +286,10 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="storyId">Id of the story.</param>
         /// <param name="taskId">Id of the task to delete.</param>
         /// <returns>Returns a Boolean (true) if successful.</returns>
-        public bool DeleteStoryTask(int? projectId, int storyId, int taskId)
+        public async Task<bool> DeleteStoryTaskAsync(int? projectId, int storyId, int taskId)
         {
             int properProjectId = GetProjectIdToUse(projectId);
-            var response = HttpService.DeleteAsync(StringUtil.PivotalStoryTasksUrl(properProjectId, storyId, taskId)).Result;
+            var response = await HttpService.DeleteAsync(StringUtil.PivotalStoryTasksUrl(properProjectId, storyId, taskId));
             return HandleResponseBoolean(response);
         }
         #endregion
@@ -302,12 +303,12 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="storyId">Id of the story.</param>
         /// <param name="includeAttachments">(optional) Defines whether we return attachments with the comments. Default: False</param>
         /// <returns>Returns a List&lt;PivotalComment&gt;. If you set <paramref name="includeAttachments"/> to true, also returns attachments</returns>
-        public List<PivotalComment> GetComments(int? projectId, int storyId, bool includeAttachments = false)
+        public async Task<List<PivotalComment>> GetCommentsAsync(int? projectId, int storyId, bool includeAttachments = false)
         {
             int properProjectId = GetProjectIdToUse(projectId);
             // TODO: Implement include attachments.
             // Try and get all comments for a specific story
-            var response = HttpService.GetAsync(StringUtil.PivotalCommentsUrl(properProjectId, storyId)).Result;
+            var response = await HttpService.GetAsync(StringUtil.PivotalCommentsUrl(properProjectId, storyId));
 
             return HandleResponse<List<PivotalComment>>(response);
         }
@@ -319,13 +320,10 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="bodyText">The main descrtiption text of the comment.</param>
         /// <param name="fileData">(optional) File data you want to add to the comment as an attachment as Stream.</param>
         /// <returns></returns>
-        public PivotalComment CreateNewComment(PivotalStory pivotalStory, string bodyText)
+        public async Task<PivotalComment> CreateNewCommentAsync(PivotalStory pivotalStory, string bodyText)
         {
             // Attempts to get the story for our pivotalStory object
-            var storyFromPivotal = GetStoryById(pivotalStory.ProjectId, pivotalStory.Id);
-
-            // Initialise a new PivotalComment
-            PivotalComment comment;
+            var storyFromPivotal = await GetStoryByIdAsync(pivotalStory.ProjectId, pivotalStory.Id);
 
             // Make sure our story actually exists, throws exception if false.
             if (storyFromPivotal != null)
@@ -341,9 +339,8 @@ namespace DotNetPivotalTrackerApi.Services
 
                 // Try and add the comment to our story
                 var response =
-                    HttpService.PostAsync(
-                        StringUtil.PivotalCommentsUrl(storyFromPivotal.ProjectId, storyFromPivotal.Id), newComment)
-                        .Result;
+                    await HttpService.PostAsync(
+                        StringUtil.PivotalCommentsUrl(storyFromPivotal.ProjectId, storyFromPivotal.Id), newComment);
 
                 return HandleResponse<PivotalComment>(response);
             }
@@ -360,10 +357,10 @@ namespace DotNetPivotalTrackerApi.Services
         /// </remarks>
         /// <param name="pivotalComment">The pre-defined PivotalNewComment to create.</param>
         /// <returns></returns>
-        public PivotalComment CreateNewComment(PivotalNewComment pivotalComment)
+        public async Task<PivotalComment> CreateNewCommentAsync(PivotalNewComment pivotalComment)
         {
             // Try and send our whole comment object to Pivotal
-            var response = HttpService.PostAsync(StringUtil.PivotalCommentsUrl(pivotalComment.ProjectId, pivotalComment.StoryId), pivotalComment).Result;
+            var response = await HttpService.PostAsync(StringUtil.PivotalCommentsUrl(pivotalComment.ProjectId, pivotalComment.StoryId), pivotalComment);
 
             return HandleResponse<PivotalComment>(response);
         }
@@ -375,7 +372,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="storyId">Id of the story to add the comment to.</param>
         /// <param name="bodyText">The main description text of the comment.</param>
         /// <returns></returns>
-        public PivotalComment CreateNewComment(int? projectId, int storyId, string bodyText)
+        public async Task<PivotalComment> CreateNewCommentAsync(int? projectId, int storyId, string bodyText)
         {
             int properProjectId = GetProjectIdToUse(projectId);
             // TODO: Implement include attachments.
@@ -388,7 +385,7 @@ namespace DotNetPivotalTrackerApi.Services
             };
 
             // Try and send our new comment to Pivotal
-            var response = HttpService.PostAsync(StringUtil.PivotalCommentsUrl(properProjectId, storyId), pivotalComment).Result;
+            var response = await HttpService.PostAsync(StringUtil.PivotalCommentsUrl(properProjectId, storyId), pivotalComment);
 
             return HandleResponse<PivotalComment>(response);
         }
@@ -401,11 +398,11 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="bodyText">The main description text of the comment.</param>
         /// <param name="fileData">(optional) File data you want to add to the comment as an attachment as Stream.</param>
         /// <returns></returns>
-        public PivotalComment CreateNewComment(int? projectId, int storyId, string bodyText, Stream fileData)
+        public async Task<PivotalComment> CreateNewCommentAsync(int? projectId, int storyId, string bodyText, Stream fileData)
         {
             int properProjectId = GetProjectIdToUse(projectId);
             // Create a new comment on our story before we go any further
-            var pivotalComment = CreateNewComment(properProjectId, storyId, bodyText);
+            var pivotalComment = await CreateNewCommentAsync(properProjectId, storyId, bodyText);
 
             using (var ms = new MemoryStream())
             {
@@ -434,7 +431,7 @@ namespace DotNetPivotalTrackerApi.Services
                 form.Add(content);
 
                 // Try and send our form to Pivotal
-                var uploadResponse = HttpService.PostContentAsync(StringUtil.PivotalUploadsUrl(properProjectId), form).Result;
+                var uploadResponse = await HttpService.PostContentAsync(StringUtil.PivotalUploadsUrl(properProjectId), form);
 
                 if (uploadResponse.IsSuccessStatusCode)
                 {
@@ -452,7 +449,7 @@ namespace DotNetPivotalTrackerApi.Services
                     };
 
                     // Try and send our comment to Pivotal
-                    var commentResponse = HttpService.PostAsync($"projects/{projectId}/stories/{storyId}/comments", newComment).Result;
+                    var commentResponse = await HttpService.PostAsync($"projects/{projectId}/stories/{storyId}/comments", newComment);
                     if (commentResponse.IsSuccessStatusCode)
                     {
                         // Serialise response to object
@@ -472,13 +469,13 @@ namespace DotNetPivotalTrackerApi.Services
             }
         }
 
-        public PivotalComment UpdateComment(int? projectId, int storyId, PivotalComment comment)
+        public async Task<PivotalComment> UpdateCommentAsync(int? projectId, int storyId, PivotalComment comment)
         {
             int properProjectId = GetProjectIdToUse(projectId);
             if (comment.PersonId != null)
                 comment.PersonId = null;
 
-            var response = HttpService.PutAsync(StringUtil.PivotalCommentsUrl(properProjectId, storyId, comment.Id), comment).Result;
+            var response = await HttpService.PutAsync(StringUtil.PivotalCommentsUrl(properProjectId, storyId, comment.Id), comment);
 
             return HandleResponse<PivotalComment>(response);
         }
@@ -501,7 +498,8 @@ namespace DotNetPivotalTrackerApi.Services
                 // Both Project Ids are null. Throw if throwException is true, throw NullReferenceException
                 if (throwException)
                 {
-                    throw new NullReferenceException("The current PivotalTracker instance has no persisted ProjectId and you did not pass one to the method. If you wish to use this method without a persisted ProjectId then you must pass one as a parameter.");
+                    throw new NullReferenceException(
+                        "The current PivotalTracker instance has no persisted ProjectId and you did not pass one to the method. If you wish to use this method without a persisted ProjectId then you must pass one as a parameter.");
                 }
 
                 // throwException is false, so we want to return a boolean `false`
