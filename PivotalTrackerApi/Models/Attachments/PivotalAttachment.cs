@@ -1,6 +1,6 @@
 ﻿namespace DotNetPivotalTrackerApi.Models.Attachments
 {
-    public class PivotalAttachment
+    public class PivotalAttachment : PivotalModel
     {
         public int Id { get; set; }
         public string FileName { get; set; }

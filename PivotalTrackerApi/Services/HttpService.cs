@@ -112,7 +112,11 @@ namespace DotNetPivotalTrackerApi.Services
             CheckTokenExists();
             return await HttpClient.DeleteAsync(path);
         }
-
+        
+        /// <summary>
+        /// Checks if the Api Token exists on the HttpService instance. Note: This is not required when calling the <see cref="AuthorizeAsync"/> method.
+        /// </summary>
+        /// <exception cref="PivotalAuthorisationException"></exception>
         private void CheckTokenExists()
         {
             if (string.IsNullOrEmpty(_apiToken))

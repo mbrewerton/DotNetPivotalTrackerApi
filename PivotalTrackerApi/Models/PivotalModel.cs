@@ -2,5 +2,6 @@
 {
     public class PivotalModel
     {
+        public string Kind { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace PivotalTrackerTests.Services
             tracker.AuthorizeAsync("testUser", "testPassword");
             FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var user = tracker.GetUser().Result;
+            var user = tracker.GetUserAsync().Result;
 
             Assert.Equal(user.ApiToken, returnUser.ApiToken);
         }
@@ -93,9 +93,9 @@ namespace PivotalTrackerTests.Services
             var response = CreateResponse(returnUser);
             FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var user = tracker.GetUser();
+            var user = tracker.GetUserAsync().Result;
 
-            Assert.Equal(user.Id, returnUser.Id);
+            Assert.Equal(returnUser.Id, user.Id);
         }
 
         [Fact]
@@ -111,7 +111,7 @@ namespace PivotalTrackerTests.Services
             var response = CreateResponse(returnProjects);
             FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var projects = tracker.GetProjects().Result;
+            var projects = tracker.GetProjectsAsync().Result;
 
             Assert.Equal(3, projects.Count);
         }

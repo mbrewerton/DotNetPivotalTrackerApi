@@ -53,14 +53,11 @@
     <Compile Include="Exceptions\PivotalNotFoundException.cs" />
     <Compile Include="Exceptions\PivotalUserException.cs" />
     <Compile Include="Models\Attachments\PivotalAttachment.cs" />
-    <Compile Include="Models\Attachments\PivotalNewAttachment.cs" />
     <Compile Include="Models\Comments\PivotalComment.cs" />
     <Compile Include="Models\PivotalModel.cs" />
     <Compile Include="Models\Project\PivotalProject.cs" />
     <Compile Include="Models\Stories\PivotalLabel.cs" />
-    <Compile Include="Models\Stories\PivotalNewStory.cs" />
     <Compile Include="Models\Stories\PivotalStory.cs" />
-    <Compile Include="Models\Tasks\PivotalNewTask.cs" />
     <Compile Include="Models\Tasks\PivotalTask.cs" />
     <Compile Include="Models\User\PivotalUser.cs" />
     <Compile Include="Models\User\PivotalUserProject.cs" />
