@@ -8,16 +8,24 @@ Development Build Status: [![Build status](https://ci.appveyor.com/api/projects/
 ## About
 The .NET Wrapper for Pivotal Tracker API is a .NET wrapper to enable easy use of the Pivotal Tracker REST API. It is current compatible with .NET4.5 and UAP10.0 applications.
 
+**Note: There have been breaking changes in version 1.1.0-Alpha. If you are currently using the package, please be aware of the changes. The changes are noted in the [Release Notes](https://github.com/mbrewerton/DotNetPivotalTrackerApi#release-notes).**
+
 You can access the nuget package here: [Nuget Package](https://www.nuget.org/packages/Mbrewerton.DotNetPivotalTrackerApi).
 
 ## Contribution
 Anyone can contribute to the project via Pull Requests (PRs), but all PRs must be created against the `develop` branch. Contribution branches would preferably be created using gitflow - Create a branch called `feature/your_feature_to_add` from `develop` and then create a PR for `feature/your_feature_to_add` -> `develop`. If you are picking off an item in the TODO list, please include the item name in the description section of your PR.
 
-## Basic Guide
-To start using the API, create a new PivotalTracker instance `PivotalTracker tracker = new PivotalTracker(YourApiToken)` and you can use all methods in the package from that instance. You must pass a Pivotal Tracker API Key to the PivotalTracker class as it uses this to communicate with the REST API. You can have multiple instances at once with multiple API keys if needed:
+## Quickstart Guide
+To start using the API, create a new PivotalTracker instance `PivotalTracker tracker = new PivotalTracker(YourApiToken)` and you can use all methods in the package from that instance. You can have multiple instances at once with multiple API keys if needed:
 ``` C#
 PivotalTracker personalTracker = new PivotalTracker(PersonalApiKey);
 PivotalTracker businessTracker = new PivotalTracker(BusinessApiKey);
+```
+
+If you don't wish to expose your API token, or you have anoher requirement that means you need to use credential authorisation, you can do so by using the `AuthorizeAsync` method.
+``` C#
+PivotalTracker tracker = new PivotalTracker();
+await tracker.AuthorizeAsync("Username", "Password");
 ```
 
 ## Examples
@@ -33,7 +41,7 @@ In order to authenticate using credentials, you need to instantiate your tracker
 ``` C#
 // Note the use of the default constructor. We don't want to pass a token here!
 PivotalTracker tracker = new PivotalTracker();
-// If this call succeeds, your `tracker` instance is now authenticated. Note that this method is async
+// If the `AuthorizeAsync` call succeeds, your `tracker` instance is now authenticated
 await tracker.AuthorizeAsync("myusername", "mypassword");
 
 // If you want to use AuthorizeAsync in a non-async method, you can use .Result. Your authenticated user will be returned if successful.
@@ -46,7 +54,7 @@ You can use the API to get your user data as well as specific REST actions:
 ``` C#
 PivotalTracker tracker = new PivotalTracker(_apiKey_);
 
-PivotalUser user = tracker.GetUser();
+PivotalUser user = await tracker.GetUserAsync();
 Console.WriteLine($"User Info: {user.Name} ({user.Initials}) has username {user.Username} and Email {user.Email}");
 ```
 All methods return an object, including any POST or PUT methods. This means you can use previously created objects when making subsequent calls. DELETE requests will return a boolean, returning `true` if it was successful. If there was an error, a `PivotalHttpException` will be thrown allowing you to try/catch for it. The exception message will include the full error message from Pivtotal Tracker.
@@ -57,10 +65,10 @@ PivotalTracker tracker = new PivotalTracker(_apiKey_);
 int projectId = 1357;
 
 // Create a new story with c'tor
-PivotalStory savedStory = tracker.CreateNewStory(projectId, "My new Feature", StoryType.feature, null, "My description");
+PivotalStory savedStory = await tracker.CreateNewStoryAsync(projectId, "My new Feature", StoryType.feature, null, "My description");
 
 // Create a new story with a pre-made object
-PivotalNewStory myBug = new PivotalNewStory
+PivotalNewStory myBug = new PivotalStory
 {
   Name = "My new story",
   Description = "My new description",
@@ -70,17 +78,25 @@ PivotalNewStory myBug = new PivotalNewStory
       "My label"
   }
 }
-PivotalStory savedBug = tracker.CreateNewStory(projectId, myBug);
+PivotalStory savedBug = await tracker.CreateNewStoryAsync(projectId, myBug);
 ```
 
 ### Adding a Task to a Story
 ``` C#
 int projectId = 1357;
-PivotalStory story = tracker.GetProjectStories(projectId).First();
-PivotalTask storyTask = tracker.CreateNewStoryTask(projectId, story.Id, "This is a task");
+PivotalStory story = await tracker.GetProjectStoriesAsync(projectId).First();
+PivotalTask storyTask = await tracker.CreateNewStoryTaskAsync(projectId, story.Id, "This is a task");
 ```
 
 ## Release Notes
+
+### 1.1.0-Alpha
+- **[Breaking Change]** Removed the "PivotalNew" models. All methods (Get and Create) now use the same model
+- **[Breaking Change]** Refactored public PivotalTracker methods to be async
+  - All methods have been renamed to include the `Async` suffix. Eg: `GetProjects()` => `GetProjectsAsync()`
+- Added authorisation for username/password authentication
+  - see the [Authentication Section](https://github.com/mbrewerton/DotNetPivotalTrackerApi#types-of-authentication)
+- Fixed credential authorisation hanging in Portable C# applications
 
 ### 1.0.6-Alpha
 - Added authorisation for username/password authentication

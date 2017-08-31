@@ -85,6 +85,9 @@
     <Compile Include="..\PivotalTrackerApi\Models\Comments\PivotalComment.cs">
       <Link>Models\Comments\PivotalComment.cs</Link>
     </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\PivotalModel.cs">
+      <Link>Models\PivotalModel.cs</Link>
+    </Compile>
     <Compile Include="..\PivotalTrackerApi\Models\Project\PivotalProject.cs">
       <Link>Models\Project\PivotalProject.cs</Link>
     </Compile>

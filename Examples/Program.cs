@@ -17,13 +17,13 @@ namespace Examples
         private static PivotalTracker _mytracker;
         static void Main(string[] args)
         {
-            _mytracker = new PivotalTracker(_apiKey);
-
-            //GetUserInfo();
-            //GetProjects();
-            //CreateNewStory();
-            //PersistProjectIdToTrackerInstance();
+            _mytracker = new PivotalTracker("you_apitoken");
             Authorisation();
+
+            GetUserInfo();
+            GetProjects();
+            CreateNewStory();
+            //PersistProjectIdToTrackerInstance();
 
             Console.ReadKey();
         }
@@ -34,27 +34,28 @@ namespace Examples
             var tracker = new PivotalTracker();
             // Authorise the tracker instance with username/password. Returns a PivotalUser if successful. Throws an exception if not.
             var authUser = tracker.AuthorizeAsync("your_username", "your_password").Result;
-            
+            Console.WriteLine($"API Token on user: {authUser.ApiToken}");
+            Console.WriteLine($"API Token on tracker: {tracker.ApiToken}");
         }
 
         private static void GetUserInfo()
         {
             // This method uses the current API Key for the tracker (_mytracker) to get your user data
-            PivotalUser user = _mytracker.GetUser();
+            PivotalUser user = _mytracker.GetUserAsync().Result;
             Console.WriteLine($"User Info: {user.Name} ({user.Initials}) has username {user.Username} and Email {user.Email}");
         }
 
         private static void GetProjects()
         {
-            PivotalUser user = _mytracker.GetUser();
+            PivotalUser user = _mytracker.GetUserAsync().Result;
             // This method uses the current API Key to get the projects the user is assigned to
-            List<PivotalProject> projects = _mytracker.GetProjects();
+            List<PivotalProject> projects = _mytracker.GetProjectsAsync().Result;
 
             Console.WriteLine($"{user.Name} is assigned to the following projects:");
 
             foreach (var project in projects)
             {
-                Console.WriteLine($@"   - {project.Name} {(project.Public == false ? "(PRIVATE)" : "")}");
+                Console.WriteLine($@"   - {project.Id} - {project.Name} {(project.Public == false ? "(PRIVATE)" : "")}");
             }
         }
 
@@ -62,7 +63,7 @@ namespace Examples
         {
             // Just grab us the first Project our API Key has access to
             int projectIdToPersist = 
-                _mytracker.GetProjects()
+                _mytracker.GetProjectsAsync().Result
                 .First()
                 .Id;
             // Create a new PivotalTracker instance so that it doesn't interfere with `_mytracker`.
@@ -70,14 +71,21 @@ namespace Examples
             PivotalTracker newTracker = new PivotalTracker(_apiKey, projectIdToPersist);
 
             // We can call the GetProjectStories without passing a projectId as we have one persisted
-            List<PivotalStory> projectStories = newTracker.GetProjectStories();
+            List<PivotalStory> projectStories = newTracker.GetProjectStoriesAsync().Result;
             Console.WriteLine($"Found {projectStories.Count} stories using the persisted Project Id '{projectIdToPersist}'");
         }
 
         private static void CreateNewStory()
         {
             // This will create a new feature, "Please raise me a feature" with no labels
-            _mytracker.CreateNewStory(_projectId, "Please raise me a feature", StoryType.feature);
+            var story = _mytracker.CreateNewStoryAsync(_projectId, "Please raise me a feature lol", StoryType.feature).Result;
+            var task1 = _mytracker.CreateNewStoryTaskAsync(_projectId, story.Id.Value, "I am task 1").Result;
+            var task2 = _mytracker.CreateNewStoryTaskAsync(_projectId, story.Id.Value, "I am task 2").Result;
+            var comment = _mytracker.CreateNewCommentAsync(_projectId, story.Id.Value, "I am comment").Result;
+            Console.WriteLine($"Story comment: {comment.Text}");
+            var story2 = _mytracker.GetStoryByIdAsync(_projectId, story.Id.Value).Result;
+            var comments = _mytracker.GetCommentsAsync(_projectId, story.Id.Value).Result;
+            Console.WriteLine($"From story: {comments.First().Text}");
             Console.WriteLine("Story has been raised, please check the project you used.");
         }
     }

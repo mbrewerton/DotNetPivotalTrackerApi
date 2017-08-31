@@ -47,7 +47,7 @@ namespace DotNetPivotalTrackerApi.Services
                 authoriseRequest.Headers.Authorization = new AuthenticationHeaderValue("basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
                 authoriseRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
    
-                return authClient.SendAsync(authoriseRequest).Result;
+                return await authClient.SendAsync(authoriseRequest);
             }
         }
         
@@ -112,7 +112,11 @@ namespace DotNetPivotalTrackerApi.Services
             CheckTokenExists();
             return await HttpClient.DeleteAsync(path);
         }
-
+        
+        /// <summary>
+        /// Checks if the Api Token exists on the HttpService instance. Note: This is not required when calling the <see cref="AuthorizeAsync"/> method.
+        /// </summary>
+        /// <exception cref="PivotalAuthorisationException"></exception>
         private void CheckTokenExists()
         {
             if (string.IsNullOrEmpty(_apiToken))

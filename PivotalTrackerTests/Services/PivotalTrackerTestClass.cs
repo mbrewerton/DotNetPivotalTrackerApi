@@ -42,9 +42,25 @@ namespace PivotalTrackerTests.Services
             tracker.AuthorizeAsync("testUser", "testPassword");
             FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var user = tracker.GetUser();
+            var user = tracker.GetUserAsync().Result;
 
             Assert.Equal(user.ApiToken, returnUser.ApiToken);
+        }
+
+        [Fact]
+        public void Test_PivotalTracker_Authentication_Sets_ApiToken()
+        {
+            var tracker = GetTracker();
+            var returnUser = new PivotalUser
+            {
+                Username = "TestUser",
+                ApiToken = "MyToken"
+            };
+            var response = CreateResponse(returnUser);
+            FakeHttpService.Setup(x => x.AuthorizeAsync(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(response));
+            var auth = tracker.AuthorizeAsync("test", "test").Result;
+
+            Assert.Equal(returnUser.ApiToken, tracker.ApiToken);
         }
 
         [Fact]
@@ -77,9 +93,9 @@ namespace PivotalTrackerTests.Services
             var response = CreateResponse(returnUser);
             FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var user = tracker.GetUser();
+            var user = tracker.GetUserAsync().Result;
 
-            Assert.Equal(user.Id, returnUser.Id);
+            Assert.Equal(returnUser.Id, user.Id);
         }
 
         [Fact]
@@ -95,16 +111,16 @@ namespace PivotalTrackerTests.Services
             var response = CreateResponse(returnProjects);
             FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var projects = tracker.GetProjects();
+            var projects = tracker.GetProjectsAsync().Result;
 
             Assert.Equal(3, projects.Count);
         }
 
         [Fact]
-        private void Test_Get_Current_Project_With_No_ProjectId_Or_Persisted_Throws()
+        private async void Test_Get_Current_Project_With_No_ProjectId_Or_Persisted_Throws()
         {
             var tracker = GetTracker();
-            Assert.Throws<PivotalException>(() => tracker.GetCurrentProject());
+            await Assert.ThrowsAsync<PivotalException>(() => tracker.GetCurrentProjectAsync());
         }
 
         [Fact]
@@ -115,7 +131,7 @@ namespace PivotalTrackerTests.Services
             var response = CreateResponse(returnProject);
             FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var project = tracker.GetCurrentProject();
+            var project = tracker.GetCurrentProjectAsync();
 
             Assert.NotNull(project);
         }
@@ -128,7 +144,7 @@ namespace PivotalTrackerTests.Services
             var response = CreateResponse(returnProject);
             FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var project = tracker.GetCurrentProject(1);
+            var project = tracker.GetCurrentProjectAsync(1);
 
             Assert.NotNull(project);
         }
@@ -146,7 +162,7 @@ namespace PivotalTrackerTests.Services
             var response = CreateResponse(returnStories);
             FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            var stories = tracker.GetProjectStories(1);
+            var stories = tracker.GetProjectStoriesAsync(1);
 
             Assert.NotNull(stories);
         }

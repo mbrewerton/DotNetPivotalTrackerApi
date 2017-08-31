@@ -2,7 +2,7 @@
 
 namespace DotNetPivotalTrackerApi.Models.User
 {
-    public class PivotalUser
+    public class PivotalUser : PivotalModel
     {
         public int Id { get; set; }
 

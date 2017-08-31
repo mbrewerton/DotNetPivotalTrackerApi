@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DotNetPivotalTrackerApi.Models.Stories;
 using DotNetPivotalTrackerApi.Services;
 
 namespace Examples.Portable
@@ -38,7 +39,7 @@ namespace Examples.Portable
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -49,7 +50,11 @@ namespace Examples.Portable
             Frame rootFrame = Window.Current.Content as Frame;
 
             var tracker = new PivotalTracker();
-            var authorisedUser = tracker.AuthorizeAsync("your_uesrname", "your_password").Result;
+            var authorisedUser = await tracker.AuthorizeAsync("your_username", "your_password");
+
+            var projects = await tracker.GetProjectsAsync();
+            var story = await tracker.CreateNewStoryAsync(projects.First().Id,
+                new PivotalStory {Name = "I'm from uwp"});
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active

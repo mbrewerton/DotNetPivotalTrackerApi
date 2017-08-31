@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Mbrewerton.DotNetPivotalTrackerApi</id>
-    <version>1.0.6-alpha</version>
+    <version>1.1.0-alpha</version>
     <authors>Matt Brewerton</authors>
     <owners>mbrewerton</owners>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
@@ -10,6 +10,8 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <releaseNotes>
       Features:
+      - [BREAKING CHANGE] Refactored public PivotalTracker methods to be async
+      - [BREAKING CHANGE] Removed the "PivotalNew" models. All methods (Get and Create) now use the same model
       - Added authorisation for username/password authentication
     </releaseNotes>
     <summary>
