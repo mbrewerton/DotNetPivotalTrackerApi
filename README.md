@@ -68,7 +68,7 @@ int projectId = 1357;
 PivotalStory savedStory = await tracker.CreateNewStoryAsync(projectId, "My new Feature", StoryType.feature, null, "My description");
 
 // Create a new story with a pre-made object
-PivotalNewStory myBug = new PivotalStory
+PivotalStory myBug = new PivotalStory
 {
   Name = "My new story",
   Description = "My new description",
