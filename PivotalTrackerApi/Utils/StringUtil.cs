@@ -31,11 +31,24 @@
             return $"projects/{projectId}/stories/{storyId}";
         }
 
+        /// <summary>
+        /// Returns the relative url for accessing all tasks on a story by story id.
+        /// </summary>
+        /// <param name="projectId">Id of your project</param>
+        /// <param name="storyId">Id of the story to retrieve tasks for.</param>
+        /// <returns></returns>
         public static string PivotalStoryTasksUrl(int projectId, int storyId)
         {
             return $"projects/{projectId}/stories/{storyId}/tasks";
         }
-
+        
+        /// <summary>
+        /// Returns the relative url for a specific tasks on a story by id.
+        /// </summary>
+        /// <param name="projectId">Id of your project</param>
+        /// <param name="storyId">Id of the story to retrieve tasks for.</param>
+        /// <param name="taskId">Id of the task to retrieve.</param>
+        /// <returns></returns>
         public static string PivotalStoryTasksUrl(int projectId, int storyId, int taskId)
         {
             return $"projects/{projectId}/stories/{storyId}/tasks/{taskId}";
@@ -64,6 +77,11 @@
             return $"projects/{projectId}/stories/{storyId}/comments/{commentId}";
         }
 
+        /// <summary>
+        /// Returns the relative url for accessing a single project.
+        /// </summary>
+        /// <param name="projectId">If of your project.</param>
+        /// <returns></returns>
         public static string PivotalProjectsUrl(int? projectId = null)
         {
             return $"projects/{(projectId != null ? "/" + projectId : "")}";
