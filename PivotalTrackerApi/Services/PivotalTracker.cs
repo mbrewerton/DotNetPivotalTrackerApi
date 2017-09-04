@@ -138,6 +138,30 @@ namespace DotNetPivotalTrackerApi.Services
             return HandleResponse<List<PivotalStory>>(response);
         }
 
+        public async Task<PivotalSearchModel> GetMyWorkAsync(int? projectId = null, string queryValue = "")
+        {
+            var properProjectId = GetProjectIdToUse(projectId);
+            var response = await HttpService.GetAsync(StringUtil.PivotalMyWorkQuery(properProjectId, queryValue));
+
+            return HandleResponse<PivotalSearchModel>(response);
+        }
+
+        public async Task<PivotalSearchModel> GetBacklogAsync(int? projectId = null)
+        {
+            var properProjectId = GetProjectIdToUse(projectId);
+            var response = await HttpService.GetAsync(StringUtil.PivotalBacklogQuery(properProjectId));
+
+            return HandleResponse<PivotalSearchModel>(response);
+        }
+
+        public async Task<PivotalSearchModel> GetIceboxAsync(int? projectId = null)
+        {
+            var properProjectId = GetProjectIdToUse(projectId);
+            var response = await HttpService.GetAsync(StringUtil.PivotalIceboxQuery(properProjectId));
+
+            return HandleResponse<PivotalSearchModel>(response);
+        }
+
         /// <summary>
         /// Gets a story within a project by Id.
         /// </summary>

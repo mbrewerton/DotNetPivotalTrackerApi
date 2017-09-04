@@ -1,4 +1,6 @@
-﻿namespace DotNetPivotalTrackerApi.Utils
+﻿using DotNetPivotalTrackerApi.Enums;
+
+namespace DotNetPivotalTrackerApi.Utils
 {
     public static class StringUtil
     {
@@ -29,6 +31,52 @@
         public static string PivotalStoriesUrl(int projectId, int storyId)
         {
             return $"projects/{projectId}/stories/{storyId}";
+        }
+
+        /// <summary>
+        /// Returns the relative url for accessing stories within "My Work".
+        /// </summary>
+        /// <param name="projectId">Id of your project.</param>
+        /// <param name="queryValue">The query value of the "My Work" search. Example: "MB"</param>
+        /// <returns></returns>
+        public static string PivotalMyWorkQuery(int projectId, string queryValue)
+        {
+            var url = PivotalStorySearchUrl(projectId, $"mywork:{queryValue}");
+            return url;
+        }
+
+        /// <summary>
+        /// Returns the relative url for accessing stories within the project backlog.
+        /// </summary>
+        /// <param name="projectId">Id of your project.</param>
+        /// <returns></returns>
+        public static string PivotalBacklogQuery(int projectId)
+        {
+            var url = PivotalStorySearchUrl(projectId, $"state:{StoryState.Unstarted.ToString().ToLower()}");
+            return url;
+        }
+
+        /// <summary>
+        /// Returns the relative url for accessing stories within the project icebox.
+        /// </summary>
+        /// <param name="projectId">Id of your project.</param>
+        /// <returns></returns>
+        public static string PivotalIceboxQuery(int projectId)
+        {
+            var url = PivotalStorySearchUrl(projectId, $"state:{StoryState.Unscheduled.ToString().ToLower()}");
+            return url;
+        }
+
+        /// <summary>
+        /// Searches all Pivotal Tracker stories using the search query provided. For help with search quieries see <a href="https://www.pivotaltracker.com/help/articles/advanced_search/">https://www.pivotaltracker.com/help/articles/advanced_search/</a>
+        /// </summary>
+        /// <param name="projectId">Id of your project.</param>
+        /// <param name="query">Search query string. For help see </param>
+        /// <returns></returns>
+        public static string PivotalStorySearchUrl(int projectId, string query)
+        {
+            var url = $"{PivotalProjectsUrl(projectId)}/search?query={query}";
+            return url;
         }
 
         /// <summary>
