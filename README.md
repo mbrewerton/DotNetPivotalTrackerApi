@@ -90,6 +90,11 @@ PivotalTask storyTask = await tracker.CreateNewStoryTaskAsync(projectId, story.I
 
 ## Release Notes
 
+### 1.1.1-Alpha
+- Fixed ability to create new stories
+- Fixed ability to add comments to stories
+- Fixed memory leak from unclosed FileStream when uploading files to comments
+
 ### 1.1.0-Alpha
 - **[Breaking Change]** Removed the "PivotalNew" models. All methods (Get and Create) now use the same model
 - **[Breaking Change]** Refactored public PivotalTracker methods to be async

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Mbrewerton.DotNetPivotalTrackerApi</id>
-    <version>1.1.0-alpha</version>
+    <version>1.1.1-alpha</version>
     <authors>Matt Brewerton</authors>
     <owners>mbrewerton</owners>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
@@ -10,9 +10,9 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <releaseNotes>
       Features:
-      - [BREAKING CHANGE] Refactored public PivotalTracker methods to be async
-      - [BREAKING CHANGE] Removed the "PivotalNew" models. All methods (Get and Create) now use the same model
-      - Added authorisation for username/password authentication
+      - Fixed ability to create new stories
+      - Fixed ability to add comments to stories
+      - Fixed memory leak from unclosed FileStream when uploading files to comments
     </releaseNotes>
     <summary>
       The package is in no way near feature-complete. There will be many new versions and builds in the coming months as features get added and will remain in Alpha until I am satisfied that a decent majority of most-used features are included in the build.
@@ -21,7 +21,7 @@
     <description>
       A C# .NET wrapper for the Pivotal Tracker API. - NOT FEATURE-COMPLETE. If you have any requests on features that should be implented as a priority, head over to the GitHub page (https://github.com/mbrewerton/DotNetPivotalTrackerApi) and raise an Issue there. To contribute, please check the Contribution section of the GitHub page. *There will be frequent Alpha releases.*
     </description>
-    <tags>dot net .net pivotal tracker wrapper api</tags>
+    <tags>dot net .net pivotal tracker wrapper api c#</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="9.0" />
     </dependencies>
