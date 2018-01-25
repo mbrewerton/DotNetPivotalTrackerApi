@@ -51,7 +51,7 @@ namespace Examples
 
         private static void GetIcebox()
         {
-            var icebox = _mytracker.GetIceboxAsync(projectId).Result;
+            var icebox = _mytracker.GetIceboxAsync(_projectId).Result;
             foreach (var story in icebox.Stories.Stories)
             {
                 Console.WriteLine(story.Name);
