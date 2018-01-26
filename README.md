@@ -90,6 +90,13 @@ PivotalTask storyTask = await tracker.CreateNewStoryTaskAsync(projectId, story.I
 
 ## Release Notes
 
+### 1.2.0-Alpha
+- Added the ability to get stories in the Icebox
+- Added the ability to get stories in the Backlog
+- Added the ability to get stories in My Work for either the current user (by default) or by initials is passed as a query string
+- Added the ability to search stories using a search query string. Currently, this must match the query string rules of Pivotal Tracker search exactly.
+  - Note: Future release will provide a way to make this method easier to use without needing to provide a full query string. Suggestions welcomed.
+
 ### 1.1.1-Alpha
 - Fixed ability to create new stories
 - Fixed ability to add comments to stories

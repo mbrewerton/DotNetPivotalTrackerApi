@@ -16,7 +16,7 @@ namespace Examples
     class Program
     {
         private static string _apiKey = ConfigurationManager.AppSettings["ApiKey"];
-        private static int _projectId = 0;
+        private static int _projectId = 2068255;
         private static PivotalTracker _mytracker;
         static void Main(string[] args)
         {
@@ -46,9 +46,20 @@ namespace Examples
             //CreateNewStory();
             //PersistProjectIdToTrackerInstance();
             //TestSearch();
+            TestGetMyWork();
 
 
             Console.ReadKey();
+        }
+
+        private static void TestGetMyWork()
+        {
+            var initials = Console.ReadLine();
+            var result = _mytracker.GetMyWorkAsync(_projectId, initials).Result;
+            foreach (var story in result.Stories.Stories)
+            {
+                Console.WriteLine($"{story.Name}");
+            }
         }
 
         private static void TestSearch()
