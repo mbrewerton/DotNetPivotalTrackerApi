@@ -2,9 +2,9 @@
 {
     public enum StoryType
     {
-        feature,
-        bug,
-        chore,
-        release
+        Feature,
+        Bug,
+        Chore,
+        Release
     }
 }

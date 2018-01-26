@@ -55,6 +55,10 @@ namespace Examples.Portable
             var projects = await tracker.GetProjectsAsync();
             var story = await tracker.CreateNewStoryAsync(projects.First().Id,
                 new PivotalStory {Name = "I'm from uwp"});
+            await tracker.CreateNewStoryTaskAsync(2008069, story.Id.Value, "From uwp");
+            await tracker.CreateNewStoryTaskAsync(2008069, story.Id.Value, "From uwp2");
+            await tracker.CreateNewStoryTaskAsync(2008069, story.Id.Value, "From uwp3");
+            await tracker.CreateNewStoryTaskAsync(2008069, story.Id.Value, "From uwp4", true, 1);
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active

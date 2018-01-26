@@ -94,8 +94,11 @@
     <Compile Include="..\PivotalTrackerApi\Models\Stories\PivotalLabel.cs">
       <Link>Models\Stories\PivotalLabel.cs</Link>
     </Compile>
-    <Compile Include="..\PivotalTrackerApi\Models\Stories\PivotalNewStory.cs">
-      <Link>Models\Stories\PivotalNewStory.cs</Link>
+    <Compile Include="..\PivotalTrackerApi\Models\Stories\PivotalSearchModel.cs">
+      <Link>Models\Stories\PivotalSearchModel.cs</Link>
+    </Compile>
+    <Compile Include="..\PivotalTrackerApi\Models\Stories\PivotalSearchStory.cs">
+      <Link>Models\Stories\PivotalSearchStory.cs</Link>
     </Compile>
     <Compile Include="..\PivotalTrackerApi\Models\Stories\PivotalStory.cs">
       <Link>Models\Stories\PivotalStory.cs</Link>

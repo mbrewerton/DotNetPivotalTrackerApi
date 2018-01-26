@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNetPivotalTrackerApi, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mbrewerton.DotNetPivotalTrackerApi.1.2.0-alpha\lib\net45\DotNetPivotalTrackerApi.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -58,12 +61,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PivotalTrackerApi\DotNetPivotalTrackerApi.csproj">
-      <Project>{b80711b6-ac08-41b9-a16f-72fd92f4c12c}</Project>
-      <Name>DotNetPivotalTrackerApi</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

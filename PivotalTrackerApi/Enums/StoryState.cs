@@ -2,14 +2,14 @@
 {
     public enum StoryState
     {
-        accepted,
-        delivered,
-        finished,
-        started,
-        rejected,
-        planned,
-        unstarted,
-        unscheduled
+        Accepted,
+        Delivered,
+        Finished,
+        Started,
+        Rejected,
+        Planned,
+        Unstarted,
+        Unscheduled
     }
 
 }

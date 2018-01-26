@@ -139,11 +139,74 @@ namespace DotNetPivotalTrackerApi.Services
         }
 
         /// <summary>
+        /// Gets stories for the current users' API token or uses the <paramref name="queryValue"/> as initials, eg: "MB"
+        /// </summary>
+        /// <param name="projectId">Id of the project to get My Work stories for.</param>
+        /// <param name="queryValue">(optional) The query string to use for user My Work query. If not supplied, the method will default to the user initials for the current API key.</param>
+        /// <returns>Returns stories matching Initials.</returns>
+        public async Task<PivotalSearchModel> GetMyWorkAsync(int? projectId = null, string queryValue = "")
+        {
+            var properProjectId = GetProjectIdToUse(projectId);
+            if (string.IsNullOrWhiteSpace(queryValue))
+            {
+                var user = await GetUserAsync();
+                queryValue = user.Initials;
+            }
+
+            var response = await HttpService.GetAsync(StringUtil.PivotalMyWorkQuery(properProjectId, queryValue));
+
+            return HandleResponse<PivotalSearchModel>(response);
+        }
+
+        /// <summary>
+        /// Gets stories in the Backlog of the project.
+        /// </summary>
+        /// <param name="projectId">Id of the project to get Backlog stories for.</param>
+        /// <returns>Backlog Stories.</returns>
+        public async Task<PivotalSearchModel> GetBacklogAsync(int? projectId = null)
+        {
+            var properProjectId = GetProjectIdToUse(projectId);
+            var response = await HttpService.GetAsync(StringUtil.PivotalBacklogQuery(properProjectId));
+
+            return HandleResponse<PivotalSearchModel>(response);
+        }
+
+        /// <summary>
+        /// Gets stories in the Icebox of the project.
+        /// </summary>
+        /// <param name="projectId">Id of the project to get Icebox stories for.</param>
+        /// <returns>Icebox stories.</returns>
+        public async Task<PivotalSearchModel> GetIceboxAsync(int? projectId = null)
+        {
+            var properProjectId = GetProjectIdToUse(projectId);
+            var response = await HttpService.GetAsync(StringUtil.PivotalIceboxQuery(properProjectId));
+
+            return HandleResponse<PivotalSearchModel>(response);
+        }
+
+        /// <summary>
+        /// Gets stories using the search function in Pivotal Tracker. The method will pass the query string passed via <paramref name="query"/>.
+        /// </summary>
+        /// <param name="projectId">Id of the project to get Icebox stories for.</param>
+        /// <param name="query">Query string to use when sesarching projects. This must match the Pivotal Tracker search options to work. If unsure on how to use this, see <see href="https://www.pivotaltracker.com/help/articles/advanced_search/"/></param>
+        /// <returns>Search object containing Query and Stories.</returns>
+        public async Task<PivotalSearchModel> SearchByQueryAsync(int? projectId = null, string query = "")
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                throw new PivotalMethodNotValidException("Search query can not be null or empty. Plesae provide a valid search query.\nFor help see: https://www.pivotaltracker.com/help/articles/advanced_search/.");
+
+            var properProjectId = GetProjectIdToUse(projectId);
+            var response = await HttpService.GetAsync(StringUtil.PivotalStorySearchUrl(properProjectId, query));
+
+            return HandleResponse<PivotalSearchModel>(response);
+        }
+
+        /// <summary>
         /// Gets a story within a project by Id.
         /// </summary>
         /// <param name="projectId">Id of the project to get the story from.</param>
         /// <param name="storyId">Id of the story you want to return.</param>
-        /// <returns></returns>
+        /// <returns>Returns a PivotalStory</returns>
         public async Task<PivotalStory> GetStoryByIdAsync(int? projectId, int storyId)
         {
             int properProjectId = GetProjectIdToUse(projectId);
@@ -186,7 +249,6 @@ namespace DotNetPivotalTrackerApi.Services
             {
                 Name = name,
                 Description = description,
-                Labels = labels ?? new List<string>(),
                 StoryType = storyType.ToString()
             };
             var response = await HttpService.PostAsync(StringUtil.PivotalStoriesUrl(properProjectId), story);
@@ -242,13 +304,13 @@ namespace DotNetPivotalTrackerApi.Services
         }
 
         /// <summary>
-        /// Creates a new task on a story. Will add the task to the beginning of the list if you don't specify a position.
+        /// Creates a new task on a story. You can specify completion and position.
         /// </summary>
         /// <param name="projectId">Id of the project.</param>
         /// <param name="storyId">Id of the story.</param>
         /// <param name="description">Description of the task.</param>
         /// <param name="complete">(optional) Determines whether or not the task is marked as "complete". (default: false)</param>
-        /// <param name="position">(optional) Sets the position of the task on the story. If not passed, the task will be placed at the start of the list. (default: 1)</param>
+        /// <param name="position">(optional) Sets the position of the task on the story (default: 1)</param>
         /// <returns>Returns a PivotalTask.</returns>
         public async Task<PivotalTask> CreateNewStoryTaskAsync(int? projectId, int storyId, string description, bool complete = false, int position = 1)
         {
@@ -318,7 +380,6 @@ namespace DotNetPivotalTrackerApi.Services
         /// </summary>
         /// <param name="pivotalStory">The pre-defined <see cref="PivotalStory"/> to add the comment to.</param>
         /// <param name="bodyText">The main descrtiption text of the comment.</param>
-        /// <param name="fileData">(optional) File data you want to add to the comment as an attachment as Stream.</param>
         /// <returns></returns>
         public async Task<PivotalComment> CreateNewCommentAsync(PivotalStory pivotalStory, string bodyText)
         {
@@ -398,7 +459,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// <param name="bodyText">The main description text of the comment.</param>
         /// <param name="fileData">(optional) File data you want to add to the comment as an attachment as Stream.</param>
         /// <returns></returns>
-        public async Task<PivotalComment> CreateNewCommentAsync(int? projectId, int storyId, string bodyText, Stream fileData)
+        public async Task<PivotalComment> CreateNewCommentAsync(int? projectId, int storyId, string bodyText, Stream fileData, bool closeFileDataStream = true)
         {
             int properProjectId = GetProjectIdToUse(projectId);
             // Create a new comment on our story before we go any further
@@ -412,6 +473,7 @@ namespace DotNetPivotalTrackerApi.Services
                 fileData.CopyTo(ms);
                 // Try and cast our fileData as a FileStream so that we can access the real file name.
                 FileStream fileStream = (FileStream)fileData;
+                if (closeFileDataStream) fileData.Dispose();
                 // Create a new byte array from our MemoryStream with our fileData in
                 byte[] data = ms.ToArray();
 

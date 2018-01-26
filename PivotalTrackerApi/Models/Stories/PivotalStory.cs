@@ -13,10 +13,10 @@ namespace DotNetPivotalTrackerApi.Models.Stories
         public string Description { get; set; }
         public string StoryType { get; set; }
         public string StoryState { get; set; }
-        public float Estimate { get; set; }
-        public DateTime? Deadline { get; set; }
+        public float? Estimate { get; set; }
+        //public DateTime? Deadline { get; set; } = DateTime.Now;
         public int? RequestedById { get; set; }
         public List<int> OwnerIds { get; set; }
-        public List<string> Labels { get; set; }
+        public List<PivotalLabel> Labels { get; set; }
     }
 }

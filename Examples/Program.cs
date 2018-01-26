@@ -2,30 +2,84 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using DotNetPivotalTrackerApi.Enums;
 using DotNetPivotalTrackerApi.Models.Project;
 using DotNetPivotalTrackerApi.Models.Stories;
 using DotNetPivotalTrackerApi.Models.User;
 using DotNetPivotalTrackerApi.Services;
+using DotNetPivotalTrackerApi.Models.Comments;
+using System.IO;
 
 namespace Examples
 {
     class Program
     {
         private static string _apiKey = ConfigurationManager.AppSettings["ApiKey"];
-        private static int _projectId = 2008069;
+        private static int _projectId = 2068255;
         private static PivotalTracker _mytracker;
         static void Main(string[] args)
         {
-            _mytracker = new PivotalTracker("you_apitoken");
-            Authorisation();
+            _mytracker = new PivotalTracker(_apiKey);
 
-            GetUserInfo();
-            GetProjects();
-            CreateNewStory();
+            //GetIcebox();
+
+            //Authorisation();
+
+            //var story = new PivotalStory();
+            //story.Name = "Hello";
+            //story.Description = "World";
+            //story.StoryType = StoryType.Chore.ToString();
+            //story.Labels = new List<PivotalLabel>()
+            //{
+            //    new PivotalLabel { Name = "My Label" }
+            //};
+
+            //var saved = Task.Run(() => _mytracker.CreateNewStoryAsync(_projectId, story)).Result;
+
+            //Task.Run(() => _mytracker.CreateNewStoryTaskAsync(_projectId, saved.Id.Value, "I am first first raised.", position: 1));
+            //Task.Run(() => _mytracker.CreateNewStoryTaskAsync(_projectId, saved.Id.Value, "I am second first raised.", position: 2));
+            //Task.Run(() => _mytracker.CreateNewStoryTaskAsync(_projectId, saved.Id.Value, "I am second third raised."));
+            //Console.WriteLine("Done!");
+            //GetUserInfo();
+            //GetProjects();
+            //CreateNewStory();
             //PersistProjectIdToTrackerInstance();
+            //TestSearch();
+            TestGetMyWork();
+
 
             Console.ReadKey();
+        }
+
+        private static void TestGetMyWork()
+        {
+            var initials = Console.ReadLine();
+            var result = _mytracker.GetMyWorkAsync(_projectId, initials).Result;
+            foreach (var story in result.Stories.Stories)
+            {
+                Console.WriteLine($"{story.Name}");
+            }
+        }
+
+        private static void TestSearch()
+        {
+            Console.Write("Enter a search query:");
+            var query = Console.ReadLine();
+            var result = _mytracker.SearchByQueryAsync(_projectId, query).Result;
+            foreach (var story in result.Stories.Stories)
+            {
+                Console.WriteLine($"{story.Name} :: Owned by: {story.OwnerIds}");
+            }
+        }
+
+        private static void GetIcebox()
+        {
+            var icebox = _mytracker.GetIceboxAsync(_projectId).Result;
+            foreach (var story in icebox.Stories.Stories)
+            {
+                Console.WriteLine(story.Name);
+            }
         }
 
         private static void Authorisation()
@@ -78,7 +132,7 @@ namespace Examples
         private static void CreateNewStory()
         {
             // This will create a new feature, "Please raise me a feature" with no labels
-            var story = _mytracker.CreateNewStoryAsync(_projectId, "Please raise me a feature lol", StoryType.feature).Result;
+            var story = _mytracker.CreateNewStoryAsync(_projectId, "Please raise me a feature lol", StoryType.Feature).Result;
             var task1 = _mytracker.CreateNewStoryTaskAsync(_projectId, story.Id.Value, "I am task 1").Result;
             var task2 = _mytracker.CreateNewStoryTaskAsync(_projectId, story.Id.Value, "I am task 2").Result;
             var comment = _mytracker.CreateNewCommentAsync(_projectId, story.Id.Value, "I am comment").Result;
