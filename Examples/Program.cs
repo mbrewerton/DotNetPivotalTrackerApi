@@ -26,27 +26,40 @@ namespace Examples
 
             //Authorisation();
 
-            var story = new PivotalStory();
-            story.Name = "Hello";
-            story.Description = "World";
-            story.StoryType = StoryType.Chore.ToString();
-            story.Labels = new List<PivotalLabel>()
-            {
-                new PivotalLabel { Name = "My Label" }
-            };
+            //var story = new PivotalStory();
+            //story.Name = "Hello";
+            //story.Description = "World";
+            //story.StoryType = StoryType.Chore.ToString();
+            //story.Labels = new List<PivotalLabel>()
+            //{
+            //    new PivotalLabel { Name = "My Label" }
+            //};
 
-            var saved = Task.Run(() => _mytracker.CreateNewStoryAsync(_projectId, story)).Result;
+            //var saved = Task.Run(() => _mytracker.CreateNewStoryAsync(_projectId, story)).Result;
 
-            Task.Run(() => _mytracker.CreateNewStoryTaskAsync(_projectId, saved.Id.Value, "I am first first raised.", position: 1));
-            Task.Run(() => _mytracker.CreateNewStoryTaskAsync(_projectId, saved.Id.Value, "I am second first raised.", position: 2));
-            Task.Run(() => _mytracker.CreateNewStoryTaskAsync(_projectId, saved.Id.Value, "I am second third raised."));
-            Console.WriteLine("Done!");
+            //Task.Run(() => _mytracker.CreateNewStoryTaskAsync(_projectId, saved.Id.Value, "I am first first raised.", position: 1));
+            //Task.Run(() => _mytracker.CreateNewStoryTaskAsync(_projectId, saved.Id.Value, "I am second first raised.", position: 2));
+            //Task.Run(() => _mytracker.CreateNewStoryTaskAsync(_projectId, saved.Id.Value, "I am second third raised."));
+            //Console.WriteLine("Done!");
             //GetUserInfo();
             //GetProjects();
             //CreateNewStory();
             //PersistProjectIdToTrackerInstance();
+            //TestSearch();
+
 
             Console.ReadKey();
+        }
+
+        private static void TestSearch()
+        {
+            Console.Write("Enter a search query:");
+            var query = Console.ReadLine();
+            var result = _mytracker.SearchByQueryAsync(_projectId, query).Result;
+            foreach (var story in result.Stories.Stories)
+            {
+                Console.WriteLine($"{story.Name} :: Owned by: {story.OwnerIds}");
+            }
         }
 
         private static void GetIcebox()

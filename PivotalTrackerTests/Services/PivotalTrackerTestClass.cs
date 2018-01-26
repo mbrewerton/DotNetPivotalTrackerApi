@@ -13,14 +13,6 @@ using Xunit;
 
 namespace PivotalTrackerTests.Services
 {
-    //public class TestPivotalTracker : PivotalTracker
-    //{
-    //    public TestPivotalTracker(IHttpService service, int? projectId = null) : base("Test String", projectId)
-    //    {
-    //        HttpService = service;
-    //    }
-    //}
-
     public class PivotalTrackerTestClass : BasePivotalTrackerTestClass
     {
         public PivotalTrackerTestClass()
@@ -68,14 +60,6 @@ namespace PivotalTrackerTests.Services
         {
             var tracker = GetTracker();
             Assert.ThrowsAsync<PivotalMethodNotValidException>(() => tracker.AuthorizeAsync("", ""));
-        }
-
-        [Fact]
-        public void Test_Credential_Authorisation_Throws_On_Forbidden()
-        {
-            //var tracker = GetTracker("testuser", "testPassword");
-            //var returnResponse = new HttpResponseMessage(HttpStatusCode.Forbidden);
-            //FakeHttpService.Setup(x => x.)
         }
 
         [Fact]
@@ -165,6 +149,20 @@ namespace PivotalTrackerTests.Services
             var stories = tracker.GetProjectStoriesAsync(1);
 
             Assert.NotNull(stories);
+        }
+
+        [Fact]
+        private void Test_Search_By_Query()
+        {
+            var tracker = GetTracker();
+            var returnStories = new PivotalSearchModel { Query = "label: \"my label\"" };
+            var response = CreateResponse(returnStories);
+            FakeHttpService.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(response));
+
+            var query = "label: \"my label\"";
+            var searchStories = tracker.SearchByQueryAsync(1, query);
+
+            Assert.Equal(query, searchStories.Result.Query);
         }
 
         [Fact]

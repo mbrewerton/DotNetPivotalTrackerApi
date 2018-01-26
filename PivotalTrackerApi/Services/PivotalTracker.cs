@@ -162,6 +162,17 @@ namespace DotNetPivotalTrackerApi.Services
             return HandleResponse<PivotalSearchModel>(response);
         }
 
+        public async Task<PivotalSearchModel> SearchByQueryAsync(int? projectId = null, string query = "")
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                throw new PivotalMethodNotValidException("Search query can not be null or empty. Plesae provide a valid search query.\nFor help see: https://www.pivotaltracker.com/help/articles/advanced_search/.");
+
+            var properProjectId = GetProjectIdToUse(projectId);
+            var response = await HttpService.GetAsync(StringUtil.PivotalStorySearchUrl(properProjectId, query));
+
+            return HandleResponse<PivotalSearchModel>(response);
+        }
+
         /// <summary>
         /// Gets a story within a project by Id.
         /// </summary>
