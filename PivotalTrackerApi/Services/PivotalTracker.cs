@@ -158,6 +158,11 @@ namespace DotNetPivotalTrackerApi.Services
             return HandleResponse<PivotalSearchModel>(response);
         }
 
+        /// <summary>
+        /// Gets stories in the Backlog of the project.
+        /// </summary>
+        /// <param name="projectId">Id of the project to get Backlog stories for.</param>
+        /// <returns>Backlog Stories.</returns>
         public async Task<PivotalSearchModel> GetBacklogAsync(int? projectId = null)
         {
             var properProjectId = GetProjectIdToUse(projectId);
@@ -166,6 +171,11 @@ namespace DotNetPivotalTrackerApi.Services
             return HandleResponse<PivotalSearchModel>(response);
         }
 
+        /// <summary>
+        /// Gets stories in the Icebox of the project.
+        /// </summary>
+        /// <param name="projectId">Id of the project to get Icebox stories for.</param>
+        /// <returns>Icebox stories.</returns>
         public async Task<PivotalSearchModel> GetIceboxAsync(int? projectId = null)
         {
             var properProjectId = GetProjectIdToUse(projectId);
@@ -174,6 +184,12 @@ namespace DotNetPivotalTrackerApi.Services
             return HandleResponse<PivotalSearchModel>(response);
         }
 
+        /// <summary>
+        /// Gets stories using the search function in Pivotal Tracker. The method will pass the query string passed via <paramref name="query"/>.
+        /// </summary>
+        /// <param name="projectId">Id of the project to get Icebox stories for.</param>
+        /// <param name="query">Query string to use when sesarching projects. This must match the Pivotal Tracker search options to work. If unsure on how to use this, see <see href="https://www.pivotaltracker.com/help/articles/advanced_search/"/></param>
+        /// <returns>Search object containing Query and Stories.</returns>
         public async Task<PivotalSearchModel> SearchByQueryAsync(int? projectId = null, string query = "")
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -190,7 +206,7 @@ namespace DotNetPivotalTrackerApi.Services
         /// </summary>
         /// <param name="projectId">Id of the project to get the story from.</param>
         /// <param name="storyId">Id of the story you want to return.</param>
-        /// <returns></returns>
+        /// <returns>Returns a PivotalStory</returns>
         public async Task<PivotalStory> GetStoryByIdAsync(int? projectId, int storyId)
         {
             int properProjectId = GetProjectIdToUse(projectId);
