@@ -138,9 +138,21 @@ namespace DotNetPivotalTrackerApi.Services
             return HandleResponse<List<PivotalStory>>(response);
         }
 
+        /// <summary>
+        /// Gets stories for the current users' API token or uses the <paramref name="queryValue"/> as initials, eg: "MB"
+        /// </summary>
+        /// <param name="projectId">Id of the project to get My Work stories for.</param>
+        /// <param name="queryValue">(optional) The query string to use for user My Work query. If not supplied, the method will default to the user initials for the current API key.</param>
+        /// <returns>Returns stories matching Initials.</returns>
         public async Task<PivotalSearchModel> GetMyWorkAsync(int? projectId = null, string queryValue = "")
         {
             var properProjectId = GetProjectIdToUse(projectId);
+            if (string.IsNullOrWhiteSpace(queryValue))
+            {
+                var user = await GetUserAsync();
+                queryValue = user.Initials;
+            }
+
             var response = await HttpService.GetAsync(StringUtil.PivotalMyWorkQuery(properProjectId, queryValue));
 
             return HandleResponse<PivotalSearchModel>(response);
