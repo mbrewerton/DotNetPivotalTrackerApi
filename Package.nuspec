@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Mbrewerton.DotNetPivotalTrackerApi</id>
-    <version>1.1.1-alpha</version>
+    <version>1.2.0-alpha</version>
     <authors>Matt Brewerton</authors>
     <owners>mbrewerton</owners>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
@@ -10,9 +10,11 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <releaseNotes>
       Features:
-      - Fixed ability to create new stories
-      - Fixed ability to add comments to stories
-      - Fixed memory leak from unclosed FileStream when uploading files to comments
+      - Added the ability to get stories in the Icebox
+      - Added the ability to get stories in the Backlog
+      - Added the ability to get stories in My Work for either the current user (by default) or by initials is passed as a query string
+      - Added the ability to search stories using a search query string. Currently, this must match the query string rules of Pivotal Tracker search exactly.
+        - Note: Future release will provide a way to make this method easier to use without needing to provide a full query string. Suggestions welcomed.
     </releaseNotes>
     <summary>
       The package is in no way near feature-complete. There will be many new versions and builds in the coming months as features get added and will remain in Alpha until I am satisfied that a decent majority of most-used features are included in the build.
