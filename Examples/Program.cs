@@ -132,7 +132,7 @@ namespace Examples
         private static void CreateNewStory()
         {
             // This will create a new feature, "Please raise me a feature" with no labels
-            var story = _mytracker.CreateNewStoryAsync(_projectId, "Please raise me a feature lol", StoryType.Feature).Result;
+            var story = _mytracker.CreateNewStoryAsync(_projectId, "Please raise me a feature", StoryType.Feature).Result;
             var task1 = _mytracker.CreateNewStoryTaskAsync(_projectId, story.Id.Value, "I am task 1").Result;
             var task2 = _mytracker.CreateNewStoryTaskAsync(_projectId, story.Id.Value, "I am task 2").Result;
             var comment = _mytracker.CreateNewCommentAsync(_projectId, story.Id.Value, "I am comment").Result;
